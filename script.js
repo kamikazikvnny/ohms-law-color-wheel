@@ -1,6 +1,28 @@
 /* =========================================================
-   OHM'S LAW COLOR WHEEL
+   OHM'S LAW & POWER COLOR WHEEL
    Interactive Electrical Math Training
+
+   COLOR WHEEL EQUATIONS
+
+   POWER
+   E × I
+   R × I²
+   E² / R
+
+   VOLTAGE
+   R × I
+   P / I
+   √(P × R)
+
+   CURRENT
+   E / R
+   P / E
+   √(P / R)
+
+   RESISTANCE
+   E / I
+   E² / P
+   P / I²
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -8,17 +30,17 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Ohm's Law Color Wheel loaded.");
 
 
-    /* =====================================================
+    /* =========================================================
        EQUATION DATA
-    ===================================================== */
+    ========================================================= */
 
     const equations = {
 
-        /* =================================================
-           POWER EQUATIONS
-        ================================================= */
+        /* =====================================================
+           POWER
+        ===================================================== */
 
-        "V × I": {
+        "E × I": {
 
             title: "Power from Voltage and Current",
 
@@ -28,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
             inputs: [
                 {
                     name: "Voltage",
-                    symbol: "V",
+                    symbol: "E",
                     unit: "V",
                     min: 0,
                     max: 240,
@@ -47,40 +69,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             ],
 
-            calculate: values =>
-                values[0] * values[1],
+            calculate: ([voltage, current]) =>
+                voltage * current,
 
             resultUnit: "W",
 
-            what:
-                "This equation calculates electrical power when voltage and current are known.",
+            field:
+                "An electrician can use this relationship to determine the power used by a load when the circuit voltage and current are known.",
 
             why:
-                "Power describes how much electrical energy a load is using at a given moment.",
+                "Electrical power is the rate at which electrical energy is being used or transferred.",
 
-            field:
-                "An electrician can use this relationship when evaluating electrical loads and understanding equipment power requirements."
+            what:
+                "For example, a 120 V load drawing 5 A uses 600 W of electrical power."
         },
 
 
-        "I² × R": {
+        "R × I²": {
 
-            title: "Power from Current and Resistance",
+            title: "Power from Resistance and Current",
 
             description:
-                "Calculate power when current and resistance are known.",
+                "Calculate electrical power when resistance and current are known.",
 
             inputs: [
-                {
-                    name: "Current",
-                    symbol: "I",
-                    unit: "A",
-                    min: 0,
-                    max: 50,
-                    step: 0.1,
-                    value: 5
-                },
-
                 {
                     name: "Resistance",
                     symbol: "R",
@@ -89,36 +101,46 @@ document.addEventListener("DOMContentLoaded", () => {
                     max: 100,
                     step: 0.1,
                     value: 20
+                },
+
+                {
+                    name: "Current",
+                    symbol: "I",
+                    unit: "A",
+                    min: 0,
+                    max: 50,
+                    step: 0.1,
+                    value: 5
                 }
             ],
 
-            calculate: values =>
-                (values[0] ** 2) * values[1],
+            calculate: ([resistance, current]) =>
+                resistance * (current ** 2),
 
             resultUnit: "W",
 
-            what:
-                "This equation calculates power by multiplying current squared by resistance.",
+            field:
+                "An electrician can use this relationship to determine the power associated with a resistive load when current and resistance are known.",
 
             why:
-                "Because current is squared, changes in current can have a significant effect on power.",
+                "Because current is squared, increasing current can have a significant effect on power.",
 
-            field:
-                "This relationship can be useful when analyzing resistive loads and understanding how current affects power."
+            what:
+                "For example, 5 A flowing through 20 Ω produces 500 W of power."
         },
 
 
-        "V² / R": {
+        "E² / R": {
 
             title: "Power from Voltage and Resistance",
 
             description:
-                "Calculate power when voltage and resistance are known.",
+                "Calculate electrical power when voltage and resistance are known.",
 
             inputs: [
                 {
                     name: "Voltage",
-                    symbol: "V",
+                    symbol: "E",
                     unit: "V",
                     min: 0,
                     max: 240,
@@ -137,44 +159,34 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             ],
 
-            calculate: values =>
-                (values[0] ** 2) / values[1],
+            calculate: ([voltage, resistance]) =>
+                (voltage ** 2) / resistance,
 
             resultUnit: "W",
 
-            what:
-                "This equation calculates power by dividing voltage squared by resistance.",
+            field:
+                "An electrician can use this relationship when voltage and the resistance of a load are known.",
 
             why:
-                "It provides another way to calculate power when resistance is known instead of current.",
+                "Squaring the voltage and dividing by resistance provides another form of the power relationship.",
 
-            field:
-                "An electrician can use this relationship when working with resistive loads where voltage and resistance are known."
+            what:
+                "For example, a 120 V load with 20 Ω of resistance uses 720 W."
         },
 
 
-        /* =================================================
-           VOLTAGE EQUATIONS
-        ================================================= */
+        /* =====================================================
+           VOLTAGE
+        ===================================================== */
 
-        "I × R": {
+        "R × I": {
 
-            title: "Voltage from Current and Resistance",
+            title: "Voltage from Resistance and Current",
 
             description:
-                "Calculate voltage when current and resistance are known.",
+                "Calculate voltage when resistance and current are known.",
 
             inputs: [
-                {
-                    name: "Current",
-                    symbol: "I",
-                    unit: "A",
-                    min: 0,
-                    max: 50,
-                    step: 0.1,
-                    value: 5
-                },
-
                 {
                     name: "Resistance",
                     symbol: "R",
@@ -183,22 +195,32 @@ document.addEventListener("DOMContentLoaded", () => {
                     max: 100,
                     step: 0.1,
                     value: 20
+                },
+
+                {
+                    name: "Current",
+                    symbol: "I",
+                    unit: "A",
+                    min: 0,
+                    max: 50,
+                    step: 0.1,
+                    value: 5
                 }
             ],
 
-            calculate: values =>
-                values[0] * values[1],
+            calculate: ([resistance, current]) =>
+                resistance * current,
 
             resultUnit: "V",
 
-            what:
-                "This is the basic Ohm's Law relationship V = I × R.",
+            field:
+                "An electrician can use this form of Ohm's Law to determine the voltage across a load when resistance and current are known.",
 
             why:
-                "It shows how current and resistance determine the voltage across a resistance.",
+                "Voltage is related to both the resistance of the load and the current flowing through it.",
 
-            field:
-                "An electrician can use this relationship when analyzing circuit conditions and comparing measured voltage, current, and resistance."
+            what:
+                "For example, 20 Ω × 5 A = 100 V."
         },
 
 
@@ -231,19 +253,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             ],
 
-            calculate: values =>
-                values[0] / values[1],
+            calculate: ([power, current]) =>
+                power / current,
 
             resultUnit: "V",
 
-            what:
-                "This equation calculates voltage by dividing power by current.",
+            field:
+                "An electrician can use power and current information to determine the voltage associated with a load.",
 
             why:
-                "It connects a load's power requirement to the voltage and current supplying it.",
+                "This relationship comes from rearranging the power formula P = E × I.",
 
-            field:
-                "This relationship can be useful when working backward from equipment power and current information."
+            what:
+                "For example, a 600 W load drawing 5 A operates at 120 V."
         },
 
 
@@ -276,72 +298,120 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             ],
 
-            calculate: values =>
-                Math.sqrt(values[0] * values[1]),
+            calculate: ([power, resistance]) =>
+                Math.sqrt(power * resistance),
 
             resultUnit: "V",
 
-            what:
-                "This equation calculates voltage by taking the square root of power multiplied by resistance.",
+            field:
+                "An electrician can determine voltage when the power and resistance of a load are known.",
 
             why:
-                "It allows voltage to be calculated when power and resistance are known.",
+                "This is derived by combining Ohm's Law with the power relationship.",
 
-            field:
-                "This relationship can be useful when analyzing resistive loads from known power and resistance values."
+            what:
+                "For example, √(720 W × 20 Ω) = 120 V."
         },
 
 
-        /* =================================================
-           CURRENT EQUATIONS
-        ================================================= */
+        /* =====================================================
+           CURRENT
+        ===================================================== */
 
-        "V / R": {
+        "E / R": {
 
-            title: "Current from Voltage and Resistance",
+    title: "Current from Voltage and Resistance",
+
+    description:
+        "Calculate current when voltage and resistance are known.",
+
+    inputs: [
+
+        {
+            name: "Voltage",
+            symbol: "E",
+            unit: "V",
+            min: 0,
+            max: 240,
+            step: 1,
+            value: 120
+        },
+
+        {
+            name: "Resistance",
+            symbol: "R",
+            unit: "Ω",
+            min: 0.1,
+            max: 100,
+            step: 0.1,
+            value: 20
+        }
+
+    ],
+
+    calculate: values =>
+        values[0] / values[1],
+
+    resultUnit: "A",
+
+    what:
+        "This equation calculates current by dividing voltage by resistance.",
+
+    why:
+        "It demonstrates the basic relationship between voltage, current, and resistance.",
+
+    field:
+        "An electrician can use this relationship to determine current when voltage and resistance are known."
+
+},
+
+
+        "P / E": {
+
+            title: "Current from Power and Voltage",
 
             description:
-                "Calculate current when voltage and resistance are known.",
+                "Calculate current when power and voltage are known.",
 
             inputs: [
                 {
-                    name: "Voltage",
-                    symbol: "V",
-                    unit: "V",
+                    name: "Power",
+                    symbol: "P",
+                    unit: "W",
                     min: 0,
-                    max: 240,
-                    step: 1,
-                    value: 120
+                    max: 5000,
+                    step: 10,
+                    value: 600
                 },
 
                 {
-                    name: "Resistance",
-                    symbol: "R",
-                    unit: "Ω",
-                    min: 0.1,
-                    max: 100,
-                    step: 0.1,
-                    value: 20
+                    name: "Voltage",
+                    symbol: "E",
+                    unit: "V",
+                    min: 1,
+                    max: 240,
+                    step: 1,
+                    value: 120
                 }
             ],
 
-            calculate: values =>
-                values[0] / values[1],
+            calculate: ([power, voltage]) =>
+                power / voltage,
 
             resultUnit: "A",
 
-            what:
-                "This equation calculates current by dividing voltage by resistance.",
+            field:
+                "An electrician can use known power and voltage values to determine the current required by a load.",
 
             why:
-                "It demonstrates the basic Ohm's Law relationship between voltage, current, and resistance.",
+                "This relationship comes from rearranging P = E × I to solve for current.",
 
-            field:
-                "An electrician can use this relationship to estimate current through a known resistance at a given voltage."
+            what:
+                "For example, a 600 W load operating at 120 V draws 5 A."
         },
 
 
-        "P / R": {
+        "√(P / R)": {
 
             title: "Current from Power and Resistance",
 
@@ -370,72 +440,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             ],
 
-            calculate: values =>
-                Math.sqrt(values[0] / values[1]),
+            calculate: ([power, resistance]) =>
+                Math.sqrt(power / resistance),
 
             resultUnit: "A",
 
-            what:
-                "This equation calculates current by taking the square root of power divided by resistance.",
+            field:
+                "An electrician can determine current when the power and resistance of a load are known.",
 
             why:
-                "It connects power consumption with the resistance of a load.",
+                "This relationship is derived from the power equation P = I²R.",
 
-            field:
-                "This relationship can help analyze resistive loads when power and resistance are known."
+            what:
+                "For example, √(500 W ÷ 20 Ω) = 5 A."
         },
 
 
-        "P / V": {
+        /* =====================================================
+           RESISTANCE
+        ===================================================== */
 
-            title: "Current from Power and Voltage",
-
-            description:
-                "Calculate current when power and voltage are known.",
-
-            inputs: [
-                {
-                    name: "Power",
-                    symbol: "P",
-                    unit: "W",
-                    min: 0,
-                    max: 5000,
-                    step: 10,
-                    value: 600
-                },
-
-                {
-                    name: "Voltage",
-                    symbol: "V",
-                    unit: "V",
-                    min: 1,
-                    max: 240,
-                    step: 1,
-                    value: 120
-                }
-            ],
-
-            calculate: values =>
-                values[0] / values[1],
-
-            resultUnit: "A",
-
-            what:
-                "This equation calculates current by dividing power by voltage.",
-
-            why:
-                "Current is an important part of understanding the electrical load placed on a circuit.",
-
-            field:
-                "An electrician can use power and voltage information to estimate the current required by a load."
-        },
-
-
-        /* =================================================
-           RESISTANCE EQUATIONS
-        ================================================= */
-
-        "V / I": {
+        "E / I": {
 
             title: "Resistance from Voltage and Current",
 
@@ -445,7 +470,7 @@ document.addEventListener("DOMContentLoaded", () => {
             inputs: [
                 {
                     name: "Voltage",
-                    symbol: "V",
+                    symbol: "E",
                     unit: "V",
                     min: 0,
                     max: 240,
@@ -464,23 +489,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             ],
 
-            calculate: values =>
-                values[0] / values[1],
+            calculate: ([voltage, current]) =>
+                voltage / current,
 
             resultUnit: "Ω",
 
-            what:
-                "This equation calculates resistance by dividing voltage by current.",
+            field:
+                "An electrician can use measured voltage and current to determine the effective resistance of a load.",
 
             why:
-                "Resistance describes how strongly a material or load opposes current flow.",
+                "Ohm's Law can be rearranged to solve for resistance by dividing voltage by current.",
 
-            field:
-                "An electrician can compare measured voltage and current to determine the effective resistance of a load."
+            what:
+                "For example, 120 V ÷ 6 A = 20 Ω."
         },
 
 
-        "V² / P": {
+        "E² / P": {
 
             title: "Resistance from Voltage and Power",
 
@@ -490,7 +515,7 @@ document.addEventListener("DOMContentLoaded", () => {
             inputs: [
                 {
                     name: "Voltage",
-                    symbol: "V",
+                    symbol: "E",
                     unit: "V",
                     min: 0,
                     max: 240,
@@ -509,19 +534,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             ],
 
-            calculate: values =>
-                (values[0] ** 2) / values[1],
+            calculate: ([voltage, power]) =>
+                (voltage ** 2) / power,
 
             resultUnit: "Ω",
 
-            what:
-                "This equation calculates resistance by dividing voltage squared by power.",
+            field:
+                "An electrician can determine resistance from known voltage and power values.",
 
             why:
-                "It provides a way to determine resistance when voltage and power are known.",
+                "This relationship is another form of the electrical power equations.",
 
-            field:
-                "This relationship can be useful when analyzing equipment specifications or resistive loads."
+            what:
+                "For example, 120² ÷ 720 = 20 Ω."
         },
 
 
@@ -554,27 +579,74 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             ],
 
-            calculate: values =>
-                values[0] / (values[1] ** 2),
+            calculate: ([power, current]) =>
+                power / (current ** 2),
 
             resultUnit: "Ω",
 
-            what:
-                "This equation calculates resistance by dividing power by current squared.",
+            field:
+                "An electrician can determine the resistance of a load when its power and current are known.",
 
             why:
-                "It connects resistance with the amount of power being used at a given current.",
+                "The formula comes directly from rearranging P = I²R to solve for resistance.",
 
-            field:
-                "An electrician can use this relationship when analyzing resistive loads from known power and current measurements."
+            what:
+                "For example, 500 W ÷ 5² = 20 Ω."
         }
 
     };
 
 
-    /* =====================================================
+    /* =========================================================
+       PRACTICE PROBLEMS
+    ========================================================= */
+
+    const practiceProblems = {
+
+        "E × I":
+            "A 120 V load draws 8 A. What is its power?",
+
+        "R × I²":
+            "A 20 Ω resistance carries 5 A. How much power is produced?",
+
+        "E² / R":
+            "A 120 V load has 20 Ω of resistance. How much power does it use?",
+
+        "R × I":
+            "A circuit has 20 Ω of resistance and 5 A of current. What voltage is present?",
+
+        "P / I":
+            "A load uses 600 W and draws 5 A. What voltage is supplying it?",
+
+        "√(P × R)":
+            "A load uses 720 W and has 20 Ω of resistance. What voltage is required?",
+
+        "E / R":
+            "A 120 V circuit has a 20 Ω load. What current should flow?",
+
+        "P / E":
+            "A 120 V load uses 600 W. Approximately how much current does it draw?",
+
+        "√(P / R)":
+            "A 500 W load has 20 Ω of resistance. What current does it draw?",
+
+        "E / I":
+            "A load has 120 V across it and draws 6 A. What is its resistance?",
+
+        "E² / P":
+            "A 120 V load uses 720 W. What is its resistance?",
+
+        "P / I²":
+            "A load uses 500 W while drawing 5 A. What is its resistance?"
+    };
+
+
+    /* =========================================================
        DOM ELEMENTS
-    ===================================================== */
+    ========================================================= */
+
+    const wheelWrapper =
+        document.querySelector("#wheelWrapper");
 
     const hotspots =
         document.querySelectorAll(".wheel-hotspot");
@@ -591,14 +663,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultValue =
         document.querySelector("#resultValue");
 
-    const whatIsIt =
-        document.querySelector("#whatIsIt");
-
-    const whyItMatters =
-        document.querySelector("#whyItMatters");
-
     const fieldUse =
         document.querySelector("#fieldUse");
+
+    const fieldExample =
+        document.querySelector("#fieldExample");
+
+    const fieldUseExample =
+        document.querySelector("#fieldUseExample");
 
     const practiceButton =
         document.querySelector("#practiceButton");
@@ -607,16 +679,16 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector("#practiceBox");
 
 
-    /* =====================================================
+    /* =========================================================
        CURRENT EQUATION
-    ===================================================== */
+    ========================================================= */
 
     let currentEquation = null;
 
 
-    /* =====================================================
-       FORMAT NUMBERS
-    ===================================================== */
+    /* =========================================================
+       NUMBER FORMATTER
+    ========================================================= */
 
     function formatNumber(value) {
 
@@ -626,48 +698,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (Math.abs(value) >= 1000) {
 
-            return value.toLocaleString(
-                "en-US",
-                {
-                    maximumFractionDigits: 2
-                }
-            );
+            return value.toLocaleString("en-US", {
+                maximumFractionDigits: 2
+            });
 
         }
 
-        return Number(
-            value.toFixed(2)
-        ).toString();
-
+        return Number(value.toFixed(2)).toString();
     }
 
 
-    /* =====================================================
+    /* =========================================================
        LOAD EQUATION
-    ===================================================== */
+    ========================================================= */
 
     function loadEquation(equationKey) {
 
-        const equation =
-            equations[equationKey];
+        const equation = equations[equationKey];
 
         if (!equation) {
+
             console.warn(
-                "Equation not found:",
-                equationKey
+                `Equation "${equationKey}" was not found.`
             );
 
             return;
         }
 
 
-        currentEquation =
-            equationKey;
+        currentEquation = equationKey;
 
 
-        /* -----------------------------------------------
-           UPDATE INFORMATION
-        ------------------------------------------------ */
+        /* -----------------------------------------------------
+           ACTIVE WHEEL STATE
+        ----------------------------------------------------- */
+
+        if (wheelWrapper) {
+            wheelWrapper.classList.add("has-selection");
+        }
+
+        hotspots.forEach(hotspot => {
+
+            hotspot.classList.toggle(
+                "active",
+                hotspot.dataset.equation === equationKey
+            );
+
+        });
+
+
+        /* -----------------------------------------------------
+           HEADER
+        ----------------------------------------------------- */
 
         selectedEquation.textContent =
             equationKey;
@@ -675,137 +757,128 @@ document.addEventListener("DOMContentLoaded", () => {
         equationDescription.textContent =
             equation.description;
 
-        whatIsIt.textContent =
-            equation.what;
 
-        whyItMatters.textContent =
-            equation.why;
+        /* -----------------------------------------------------
+           FIELD APPLICATION
+        ----------------------------------------------------- */
 
-        fieldUse.textContent =
-            equation.field;
+        if (fieldUse) {
+            fieldUse.textContent =
+                equation.field;
+        }
+
+        if (fieldExample) {
+            fieldExample.textContent =
+                equation.why;
+        }
+
+        if (fieldUseExample) {
+            fieldUseExample.textContent =
+                equation.what;
+        }
 
 
-        /* -----------------------------------------------
+        /* -----------------------------------------------------
            CLEAR OLD INPUTS
-        ------------------------------------------------ */
+        ----------------------------------------------------- */
 
         calculatorInputs.innerHTML = "";
 
 
-        /* -----------------------------------------------
-           CREATE NEW SLIDERS
-        ------------------------------------------------ */
+        /* -----------------------------------------------------
+           CREATE INPUTS
+        ----------------------------------------------------- */
 
-        equation.inputs.forEach(
-            (input, index) => {
+        equation.inputs.forEach((input, index) => {
 
-                const group =
-                    document.createElement("div");
+            const group =
+                document.createElement("div");
 
-                group.className =
-                    "input-group";
-
-
-                const label =
-                    document.createElement("label");
+            group.className =
+                "input-group";
 
 
-                label.innerHTML = `
+            const label =
+                document.createElement("label");
 
-                    <span>
-                        ${input.name}
+            label.innerHTML = `
+                <span>
+                    ${input.name}
+                    <strong>${input.symbol}</strong>
+                </span>
 
-                        <strong>
-                            ${input.symbol}
-                        </strong>
+                <span class="live-value">
+                    <span id="value-${index}">
+                        ${formatNumber(input.value)}
                     </span>
-
-                    <span class="live-value">
-
-                        <span
-                            id="value-${index}"
-                        >
-                            ${formatNumber(input.value)}
-                        </span>
-
-                        ${input.unit}
-
-                    </span>
-
-                `;
+                    ${input.unit}
+                </span>
+            `;
 
 
-                const slider =
-                    document.createElement("input");
+            const slider =
+                document.createElement("input");
+
+            slider.type =
+                "range";
+
+            slider.min =
+                input.min;
+
+            slider.max =
+                input.max;
+
+            slider.step =
+                input.step;
+
+            slider.value =
+                input.value;
+
+            slider.className =
+                "value-slider";
+
+            slider.dataset.index =
+                index;
+
+            slider.setAttribute(
+                "aria-label",
+                `${input.name} ${input.symbol}`
+            );
 
 
-                slider.type =
-                    "range";
-
-                slider.min =
-                    input.min;
-
-                slider.max =
-                    input.max;
-
-                slider.step =
-                    input.step;
-
-                slider.value =
-                    input.value;
-
-                slider.className =
-                    "value-slider";
+            slider.addEventListener(
+                "input",
+                updateCalculator
+            );
 
 
-                slider.dataset.index =
-                    index;
+            group.appendChild(label);
+            group.appendChild(slider);
+
+            calculatorInputs.appendChild(group);
+
+        });
 
 
-                slider.addEventListener(
-                    "input",
-                    updateCalculator
-                );
-
-
-                group.appendChild(
-                    label
-                );
-
-                group.appendChild(
-                    slider
-                );
-
-                calculatorInputs.appendChild(
-                    group
-                );
-
-            }
-        );
-
-
-        /* -----------------------------------------------
+        /* -----------------------------------------------------
            INITIAL CALCULATION
-        ------------------------------------------------ */
+        ----------------------------------------------------- */
 
         updateCalculator();
 
 
-        /* -----------------------------------------------
-           RESET PRACTICE AREA
-        ------------------------------------------------ */
+        /* -----------------------------------------------------
+           RESET PRACTICE MESSAGE
+        ----------------------------------------------------- */
 
         practiceBox.textContent =
             "Click PRACTICE THIS EQUATION to generate a problem.";
-
-
-        
     }
 
 
-    /* =====================================================
+    /* =========================================================
        UPDATE CALCULATOR
-    ===================================================== */
+    ========================================================= */
 
     function updateCalculator() {
 
@@ -819,47 +892,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         const sliders =
-            document.querySelectorAll(
+            calculatorInputs.querySelectorAll(
                 ".value-slider"
             );
 
 
         const values =
             Array.from(sliders).map(
-                slider =>
-                    Number(slider.value)
+                slider => Number(slider.value)
             );
 
 
-        /* -----------------------------------------------
-           UPDATE LIVE INPUT VALUES
-        ------------------------------------------------ */
+        /* -----------------------------------------------------
+           UPDATE LIVE VALUES
+        ----------------------------------------------------- */
 
-        sliders.forEach(
-            (slider, index) => {
+        sliders.forEach((slider, index) => {
 
-                const display =
-                    document.querySelector(
-                        `#value-${index}`
-                    );
+            const display =
+                document.querySelector(
+                    `#value-${index}`
+                );
 
+            if (display) {
 
-                if (display) {
-
-                    display.textContent =
-                        formatNumber(
-                            values[index]
-                        );
-
-                }
+                display.textContent =
+                    formatNumber(values[index]);
 
             }
-        );
+
+        });
 
 
-        /* -----------------------------------------------
-           CALCULATE RESULT
-        ------------------------------------------------ */
+        /* -----------------------------------------------------
+           CALCULATE
+        ----------------------------------------------------- */
 
         let result;
 
@@ -877,17 +944,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             result =
                 NaN;
-
         }
 
 
-        /* -----------------------------------------------
+        /* -----------------------------------------------------
            DISPLAY RESULT
-        ------------------------------------------------ */
+        ----------------------------------------------------- */
 
-        if (
-            Number.isFinite(result)
-        ) {
+        if (Number.isFinite(result)) {
 
             resultValue.textContent =
                 `${formatNumber(result)} ${equation.resultUnit}`;
@@ -896,181 +960,159 @@ document.addEventListener("DOMContentLoaded", () => {
 
             resultValue.textContent =
                 "—";
-
         }
+    }
+
+
+    /* =========================================================
+       WHEEL EVENTS
+    ========================================================= */
+
+    hotspots.forEach(hotspot => {
+
+        /* -----------------------------------------------------
+           CLICK
+        ----------------------------------------------------- */
+
+        hotspot.addEventListener("click", () => {
+
+            const equation =
+                hotspot.dataset.equation;
+
+            if (!equations[equation]) {
+
+                console.warn(
+                    `No calculator exists for "${equation}".`
+                );
+
+                return;
+            }
+
+
+            loadEquation(equation);
+
+
+
+        });
+
+
+        /* -----------------------------------------------------
+           HOVER
+        ----------------------------------------------------- */
+
+        hotspot.addEventListener(
+            "mouseenter",
+            () => {
+
+                hotspot.classList.add("hovered");
+
+            }
+        );
+
+
+        hotspot.addEventListener(
+            "mouseleave",
+            () => {
+
+                hotspot.classList.remove("hovered");
+
+            }
+        );
+
+    });
+
+
+    /* =========================================================
+       PRACTICE BUTTON
+    ========================================================= */
+
+    if (practiceButton) {
+
+        practiceButton.addEventListener(
+            "click",
+            () => {
+
+                if (!currentEquation) {
+
+                    practiceBox.textContent =
+                        "Select an equation on the wheel first.";
+
+                    return;
+                }
+
+
+                const problem =
+                    practiceProblems[currentEquation];
+
+
+                if (!problem) {
+
+                    practiceBox.textContent =
+                        "No practice problem is available for this equation.";
+
+                    return;
+                }
+
+
+                practiceBox.innerHTML = `
+                    <strong>
+                        YOUR PRACTICE PROBLEM
+                    </strong>
+
+                    <p>
+                        ${problem}
+                    </p>
+
+                    <span>
+                        Use the calculator above to work it out.
+                    </span>
+                `;
+
+            }
+        );
 
     }
 
 
-    /* =====================================================
-       WHEEL CLICK EVENTS
-    ===================================================== */
+    /* =========================================================
+       VALIDATE WHEEL AGAINST EQUATION DATA
+    ========================================================= */
 
-    hotspots.forEach(
-        hotspot => {
-
-            hotspot.addEventListener(
-                "click",
-                () => {
-
-                    const equation =
-                        hotspot.dataset.equation;
+    const wheelEquationNames =
+        Array.from(hotspots).map(
+            hotspot => hotspot.dataset.equation
+        );
 
 
-                    /* Remove active state */
+    wheelEquationNames.forEach(equation => {
 
-                    hotspots.forEach(
-                        item => {
+        if (!equations[equation]) {
 
-                            item.classList.remove(
-                                "active"
-                            );
-
-                        }
-                    );
-
-
-                    /* Activate selected section */
-
-                    hotspot.classList.add(
-                        "active"
-                    );
-
-
-                    /* Load calculator */
-
-                    loadEquation(
-                        equation
-                    );
-
-                }
-            );
-
-
-            /* -------------------------------------------
-               MOUSE HOVER
-            -------------------------------------------- */
-
-            hotspot.addEventListener(
-                "mouseenter",
-                () => {
-
-                    hotspot.classList.add(
-                        "hovered"
-                    );
-
-                }
-            );
-
-
-            hotspot.addEventListener(
-                "mouseleave",
-                () => {
-
-                    hotspot.classList.remove(
-                        "hovered"
-                    );
-
-                }
+            console.warn(
+                `Wheel hotspot "${equation}" has no matching calculator.`
             );
 
         }
-    );
+
+    });
 
 
-    /* =====================================================
-       PRACTICE PROBLEMS
-    ===================================================== */
+    Object.keys(equations).forEach(equation => {
 
-    const practiceProblems = {
+        if (!wheelEquationNames.includes(equation)) {
 
-        "V × I":
-            "A 120 V load draws 8 A. What is its power?",
-
-        "I² × R":
-            "A 5 A current flows through a 20 Ω resistance. How much power is produced?",
-
-        "V² / R":
-            "A 120 V load has 20 Ω of resistance. How much power does it use?",
-
-        "I × R":
-            "A circuit has 5 A of current and 20 Ω of resistance. What voltage is present?",
-
-        "P / I":
-            "A load uses 600 W and draws 5 A. What voltage is supplying it?",
-
-        "√(P × R)":
-            "A load uses 720 W and has 20 Ω of resistance. What voltage is required?",
-
-        "V / R":
-            "A 120 V circuit has a 20 Ω load. What current should flow?",
-
-        "P / R":
-            "A 600 W load has 20 Ω of resistance. What current does it draw?",
-
-        "P / V":
-            "A 120 V load uses 600 W. Approximately how much current does it draw?",
-
-        "V / I":
-            "A load has 120 V across it and draws 6 A. What is its resistance?",
-
-        "V² / P":
-            "A 120 V load uses 720 W. What is its resistance?",
-
-        "P / I²":
-            "A load uses 500 W while drawing 5 A. What is its resistance?"
-
-    };
-
-
-    /* =====================================================
-       PRACTICE BUTTON
-    ===================================================== */
-
-    practiceButton.addEventListener(
-        "click",
-        () => {
-
-            if (!currentEquation) {
-
-                practiceBox.textContent =
-                    "Select an equation on the wheel first.";
-
-                return;
-
-            }
-
-
-            const problem =
-                practiceProblems[
-                    currentEquation
-                ];
-
-
-            practiceBox.innerHTML = `
-
-                <strong>
-                    YOUR PRACTICE PROBLEM
-                </strong>
-
-                <p>
-                    ${problem}
-                </p>
-
-                <span>
-                    Use the calculator above
-                    to work it out.
-                </span>
-
-            `;
+            console.warn(
+                `Calculator equation "${equation}" has no matching wheel hotspot.`
+            );
 
         }
-    );
+
+    });
 
 
-    /* =====================================================
+    /* =========================================================
        INITIAL STATE
-    ===================================================== */
+    ========================================================= */
 
     selectedEquation.textContent =
         "Select an equation above";
