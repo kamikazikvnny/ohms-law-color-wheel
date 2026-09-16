@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ohm's Law Color Wheel | Electrical Training</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+    <div class="header-content">
+
+        <div class="brand">
+            <h1>Ohm's Law Color Wheel</h1>
+            <p>Interactive Electrical Math Training</p>
+        </div>
+
+        <div class="header-label">
+            ELECTRICAL TRAINING
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main-content">
+
+
+    <!-- =====================================================
+         INTRODUCTION
+    ====================================================== -->
+
+    <section class="intro-section">
+
+        <h2>Explore Electrical Relationships</h2>
+
+        <p>
+            Select an equation on the wheel to open an interactive
+            calculator. Change the values and watch the result
+            update in real time.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         COLOR WHEEL
+    ====================================================== -->
+
+    <section class="wheel-section">
+
+        <div class="wheel-wrapper">
+
+            <!-- The actual wheel image -->
+            <img
+                src="color-wheel.png"
+                alt="Ohm's Law and Power equation color wheel"
+                class="color-wheel"
+            >
+
+
+            <!-- =================================================
+                 CLICKABLE EQUATION AREAS
+            ================================================== -->
+
+            <svg
+                class="wheel-hotspots"
+                viewBox="0 0 1536 1536"
+                preserveAspectRatio="xMidYMid meet"
+                aria-label="Interactive equation wheel"
+            >
+
+                <!--
+                    Each path corresponds to one outer section
+                    of the wheel.
+
+                    The paths are transparent.
+                    The image underneath remains visible.
+                -->
+
+
+                <!-- 1 — I × R -->
+                <path
+                    class="wheel-hotspot"
+                    data-equation="I × R"
+                    d="M768 50
+                       A718 718 0 0 1 1127 146.2
+                       L927 492.6
+                       L768 450 Z"
+                />
+
+
+                <!-- 2 — P / I -->
+                <path
+                    class="wheel-hotspot"
+                    data-equation="P / I"
+                    d="M1127 146.2
+                       A718 718 0 0 1 1389.8 409
+                       L1043.4 609
+                       L927 492.6 Z"
+                />
+
+
+                <!-- 3 — √(P × R) -->
+                <path
+                    class="wheel-hotspot"
+                    data-equation="√(P × R)"
+                    d="M1389.8 409
+                       A718 718 0 0 1 1486 768
+                       L1086 768
+                       L1043.4 609 Z"
+                />
+
+
+                <!-- 4 — V / I -->
+                <path
+                    class="wheel-hotspot"
+                    data-equation="√(P / R)"
+                    d="M1486 768
+                       A718 718 0 0 1 1389.8 1127
+                       L1043.4 927
+                       L1086 768 Z"
+                />
+
+
+                <!-- 5 — V² / P -->
+                <path
+                    class="wheel-hotspot"
+                    data-equation="V² / P"
+                    d="M1389.8 1127
+                       A718 718 0 0 1 1127 1389.8
+                       L927 1043.4
+                       L1043.4 927 Z"
+                />
+
+
+                <!-- 6 — P / I² -->
+                <path
+                    class="wheel-hotspot"
+                    data-equation="P / I²"
+                    d="M1127 1389.8
+                       A718 718 0 0 1 768 1486
+                       L768 1086
+                       L927 1043.4 Z"
+                />
+
+
+                <!-- 7 — P / R -->
+                <path
+                    class="wheel-hotspot"
+                    data-equation="P / R"
+                    d="M768 1486
+                       A718 718 0 0 1 409 1389.8
+                       L609 1043.4
+                       L768 1086 Z"
+                />
+
+
+                <!-- 8 — P / V -->
+                <path
+                    class="wheel-hotspot"
+                    data-equation="P / V"
+                    d="M409 1389.8
+                       A718 718 0 0 1 146.2 1127
+                       L492.6 927
+                       L609 1043.4 Z"
+                />
+
+
+                <!-- 9 — V / I -->
+                <path
+                    class="wheel-hotspot"
+                    data-equation="V / I"
+                    d="M146.2 1127
+                       A718 718 0 0 1 50 768
+                       L450 768
+                       L492.6 927 Z"
+                />
+
+
+                <!-- 10 — V × I -->
+                <path
+                    class="wheel-hotspot"
+                    data-equation="V × I"
+                    d="M50 768
+                       A718 718 0 0 1 146.2 409
+                       L492.6 609
+                       L450 768 Z"
+                />
+
+
+                <!-- 11 — I² × R -->
+                <path
+                    class="wheel-hotspot"
+                    data-equation="I² × R"
+                    d="M146.2 409
+                       A718 718 0 0 1 409 146.2
+                       L609 492.6
+                       L492.6 609 Z"
+                />
+
+
+                <!-- 12 — V² / R -->
+                <path
+                    class="wheel-hotspot"
+                    data-equation="V² / R"
+                    d="M409 146.2
+                       A718 718 0 0 1 768 50
+                       L768 450
+                       L609 492.6 Z"
+                />
+
+            </svg>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SELECTED EQUATION
+    ====================================================== -->
+
+    <section
+        class="calculator-section"
+        id="calculatorSection"
+    >
+
+        <div class="calculator-header">
+
+            <span class="section-label">
+                SELECTED EQUATION
+            </span>
+
+            <h2 id="selectedEquation">
+                Select an equation above
+            </h2>
+
+            <p id="equationDescription">
+                Click one of the equations on the color wheel
+                to begin.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             CALCULATOR
+        ================================================== -->
+
+        <div
+            class="calculator-panel"
+            id="calculatorPanel"
+        >
+
+            <div class="calculator-inputs" id="calculatorInputs">
+
+                <!-- JavaScript inserts sliders here -->
+
+            </div>
+
+
+            <!-- RESULT -->
+
+            <div class="result-box">
+
+                <span class="result-label">
+                    CALCULATED RESULT
+                </span>
+
+                <div
+                    class="result-value"
+                    id="resultValue"
+                >
+                    —
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             INFORMATION
+        ================================================== -->
+
+        <div class="information-grid">
+
+
+            <!-- WHAT IS IT -->
+
+            <article class="info-card">
+
+                <div class="info-icon">
+                    📘
+                </div>
+
+                <h3>What Is It?</h3>
+
+                <p id="whatIsIt">
+                    Select an equation to learn what it calculates.
+                </p>
+
+            </article>
+
+
+            <!-- WHY IT MATTERS -->
+
+            <article class="info-card">
+
+                <div class="info-icon">
+                    ⚡
+                </div>
+
+                <h3>Why Does It Matter?</h3>
+
+                <p id="whyItMatters">
+                    Electrical calculations help electricians
+                    understand how voltage, current, resistance,
+                    and power interact.
+                </p>
+
+            </article>
+
+
+            <!-- FIELD USE -->
+
+            <article class="info-card">
+
+                <div class="info-icon">
+                    🔧
+                </div>
+
+                <h3>How An Electrician Uses It</h3>
+
+                <p id="fieldUse">
+                    Select an equation to see an example of how
+                    the calculation can relate to electrical work.
+                </p>
+
+            </article>
+
+        </div>
+
+
+        <!-- =================================================
+             PRACTICE
+        ================================================== -->
+
+        <div class="practice-section">
+
+            <button
+                type="button"
+                id="practiceButton"
+                class="practice-button"
+            >
+                🎲 PRACTICE THIS EQUATION
+            </button>
+
+            <div
+                id="practiceBox"
+                class="practice-box"
+            >
+                Select an equation to generate a practice problem.
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+    <p>
+        Ohm's Law Color Wheel
+        <span>•</span>
+        Interactive Electrical Training
+    </p>
+
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
