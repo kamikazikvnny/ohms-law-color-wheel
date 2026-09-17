@@ -116,6 +116,8 @@ input {
     letter-spacing: 1.5px;
 
     white-space: nowrap;
+
+    text-align: center;
 }
 
 
@@ -155,6 +157,8 @@ input {
 
     font-size: 1.8rem;
 
+    color: #4a4949;
+
     line-height: 1.25;
 }
 
@@ -162,7 +166,7 @@ input {
 .intro-section p {
     margin: 0;
 
-    color: #c9c9c9;
+    color: #6f6f6f;
 
     font-size: 0.98rem;
 
@@ -185,14 +189,30 @@ input {
 }
 
 
+/* =========================================================
+   WHEEL WRAPPER
+=========================================================
+
+   IMPORTANT:
+   The source wheel image is 1248 × 1248.
+
+   The SVG overlay uses the same coordinate system:
+   viewBox="0 0 1248 1248"
+
+   Therefore the image and SVG remain perfectly aligned
+   at every responsive size.
+========================================================= */
+
 .wheel-wrapper {
     position: relative;
 
     width: min(760px, 90vw);
 
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1248 / 1248;
 
     margin: 0 auto;
+
+    isolation: isolate;
 }
 
 
@@ -201,13 +221,16 @@ input {
 ========================================================= */
 
 .color-wheel {
-    position: relative;
+    position: absolute;
+
+    inset: 0;
 
     z-index: 1;
 
     display: block;
 
     width: 100%;
+
     height: 100%;
 
     object-fit: contain;
@@ -221,38 +244,7 @@ input {
 
 
 /* =========================================================
-   WHEEL DIMMING EFFECT
-========================================================= */
-
-.wheel-wrapper::after {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 2;
-
-    background:
-        rgba(0, 0, 0, 0);
-
-    border-radius: 50%;
-
-    pointer-events: none;
-
-    transition:
-        background 0.2s ease;
-}
-
-
-.wheel-wrapper.has-selection::after {
-    background:
-        rgba(0, 0, 0, 0.16);
-}
-
-
-/* =========================================================
-   SVG HOTSPOTS
+   SVG HOTSPOT OVERLAY
 ========================================================= */
 
 .wheel-hotspots {
@@ -262,25 +254,40 @@ input {
 
     z-index: 3;
 
+    display: block;
+
     width: 100%;
+
     height: 100%;
+
+    margin: 0;
+
+    padding: 0;
 
     overflow: visible;
 
-    display: block;
+    pointer-events: none;
 }
 
 
+/* =========================================================
+   INDIVIDUAL WEDGE HOTSPOTS
+========================================================= */
+
 .wheel-hotspot {
+    pointer-events: auto;
+
     fill:
         rgba(255, 255, 255, 0);
 
     stroke:
         transparent;
 
-    stroke-width: 8;
+    stroke-width: 0;
 
     stroke-linejoin: round;
+
+    stroke-linecap: round;
 
     cursor: pointer;
 
@@ -295,12 +302,52 @@ input {
 
 
 /* =========================================================
-   UNSELECTED HOTSPOTS
+   SELECTED STATE
+
+   When an equation is selected, the JavaScript adds
+   .has-selection to the wheel wrapper.
+
+   Every non-selected wedge receives a subtle dark overlay.
+
+   The selected wedge remains clear and receives a soft
+   white glow.
 ========================================================= */
 
 .wheel-wrapper.has-selection
 .wheel-hotspot:not(.active) {
-    opacity: 0.55;
+
+    fill:
+        rgba(0, 0, 0, 0.22);
+
+    opacity: 1;
+
+    filter:
+        brightness(0.88);
+}
+
+
+/* =========================================================
+   ACTIVE WEDGE
+========================================================= */
+
+.wheel-wrapper.has-selection
+.wheel-hotspot.active {
+
+    fill:
+        rgba(255, 255, 255, 0.025);
+
+    stroke:
+        rgba(255, 255, 255, 0.92);
+
+    stroke-width:
+        3;
+
+    opacity: 1;
+
+    filter:
+        drop-shadow(
+            0 0 5px rgba(255, 255, 255, 0.45)
+        );
 }
 
 
@@ -310,41 +357,46 @@ input {
 
 .wheel-hotspot:hover,
 .wheel-hotspot.hovered {
+
     fill:
-        rgba(255, 255, 255, 0.13);
+        rgba(255, 255, 255, 0.10);
 
     stroke:
-        rgba(255, 255, 255, 0.75);
+        rgba(255, 255, 255, 0.65);
 
-    stroke-width: 9;
+    stroke-width:
+        3;
 
     opacity: 1;
 
     filter:
         drop-shadow(
-            0 0 5px rgba(255, 255, 255, 0.25)
+            0 0 5px rgba(255, 255, 255, 0.30)
         );
 }
 
 
 /* =========================================================
-   ACTIVE HOTSPOT
+   HOVER + SELECTED WEDGE
 ========================================================= */
 
-.wheel-hotspot.active {
+.wheel-wrapper.has-selection
+.wheel-hotspot.active:hover,
+.wheel-wrapper.has-selection
+.wheel-hotspot.active.hovered {
+
     fill:
-        rgba(255, 255, 255, 0.18);
+        rgba(255, 255, 255, 0.06);
 
     stroke:
-        rgba(255, 255, 255, 0.95);
+        rgba(255, 255, 255, 0.98);
 
-    stroke-width: 10;
-
-    opacity: 1;
+    stroke-width:
+        4;
 
     filter:
         drop-shadow(
-            0 0 7px rgba(255, 255, 255, 0.35)
+            0 0 7px rgba(255, 255, 255, 0.48)
         );
 }
 
@@ -392,7 +444,8 @@ input {
 
 
 .inner-label-name {
-    font-size: clamp(0.75rem, 1.8vw, 1.15rem);
+    font-size:
+        clamp(0.75rem, 1.8vw, 1.15rem);
 
     line-height: 1.1;
 
@@ -403,51 +456,57 @@ input {
 .inner-label-symbol {
     margin-top: 4px;
 
-    font-size: clamp(1.35rem, 3.2vw, 2rem);
+    font-size:
+        clamp(1.35rem, 3.2vw, 2rem);
 
     line-height: 1;
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    INNER LABEL POSITIONS
-
-   These percentages keep the labels attached to the
-   four quadrants as the wheel scales.
---------------------------------------------------------- */
+========================================================= */
 
 .inner-watts {
     left: 25%;
+
     top: 42%;
 
     width: 25%;
+
     height: 16%;
 }
 
 
 .inner-volts {
     left: 50%;
+
     top: 42%;
 
     width: 25%;
+
     height: 16%;
 }
 
 
 .inner-amps {
     left: 25%;
+
     top: 58%;
 
     width: 25%;
+
     height: 16%;
 }
 
 
 .inner-ohms {
     left: 50%;
+
     top: 58%;
 
     width: 25%;
+
     height: 16%;
 }
 
@@ -607,15 +666,7 @@ input {
 
     -webkit-appearance: none;
 
-    background:
-        linear-gradient(
-            to right,
-            #d7b35b,
-            #d7b35b
-        )
-        no-repeat;
-
-    background-color: #555;
+    background: #555;
 
     border-radius: 20px;
 
@@ -625,12 +676,13 @@ input {
 }
 
 
-/* ---------------------------------------------------------
-   WEBKIT THUMB
---------------------------------------------------------- */
+/* =========================================================
+   WEBKIT SLIDER THUMB
+========================================================= */
 
 .value-slider::-webkit-slider-thumb {
     width: 22px;
+
     height: 22px;
 
     appearance: none;
@@ -655,12 +707,13 @@ input {
 }
 
 
-/* ---------------------------------------------------------
-   FIREFOX THUMB
---------------------------------------------------------- */
+/* =========================================================
+   FIREFOX SLIDER THUMB
+========================================================= */
 
 .value-slider::-moz-range-thumb {
     width: 22px;
+
     height: 22px;
 
     border: 3px solid #181818;
@@ -681,9 +734,9 @@ input {
 }
 
 
-/* ---------------------------------------------------------
-   FOCUS
---------------------------------------------------------- */
+/* =========================================================
+   SLIDER FOCUS
+========================================================= */
 
 .value-slider:focus-visible {
     outline:
@@ -938,7 +991,7 @@ input {
 
 
 .practice-box span {
-    color: #aaa;
+    color: #aaaaaa;
 }
 
 
@@ -1047,6 +1100,8 @@ input {
         width: 96vw;
 
         max-width: 540px;
+
+        aspect-ratio: 1 / 1;
     }
 
 
@@ -1187,3135 +1242,14 @@ input {
     *,
     *::before,
     *::after {
-        transition-duration: 0.01ms !important;
+        transition-duration:
+            0.01ms !important;
 
-        animation-duration: 0.01ms !important;
+        animation-duration:
+            0.01ms !important;
 
-        animation-iteration-count: 1 !important;
-    }
-
-}
-/* =========================================================
-   GLOBAL
-========================================================= */
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    margin: 0;
-    min-height: 100vh;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    background:
-        #242424;
-
-    color:
-        #f5f5f5;
-
-    overflow-x: hidden;
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.site-header {
-    width: 100%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #111111,
-            #292929
-        );
-
-    border-bottom:
-        2px solid #444;
-
-    box-shadow:
-        0 4px 18px rgba(0,0,0,.35);
-
-}
-
-
-.header-content {
-    width: min(1200px, 94%);
-
-    min-height: 65px;
-
-    margin: auto;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 20px;
-}
-
-
-.brand h1 {
-    margin: 0;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size: 1.5rem;
-
-    letter-spacing:
-        .5px;
-}
-
-
-.brand p {
-    margin:
-        2px 0 0;
-
-    color:
-        #bbbbbb;
-
-    font-size:
-        .9rem;
-}
-
-
-.header-label {
-    padding:
-        9px 15px;
-
-    border:
-        1px solid #777;
-
-    border-radius:
-        4px;
-
-    color:
-        #dddddd;
-
-    font-size:
-        .75rem;
-
-    font-weight:
-        bold;
-
-    letter-spacing:
-        1.5px;
-
-    white-space:
-        nowrap;
-}
-
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.main-content {
-    width:
-        min(1200px, 94%);
-
-    margin:
-        0 auto;
-
-    padding:
-        35px 0 60px;
-}
-
-
-/* =========================================================
-   INTRO
-========================================================= */
-
-.intro-section {
-    text-align:
-        center;
-
-    max-width:
-        760px;
-
-    margin:
-        0 auto 30px;
-}
-
-
-.intro-section h2 {
-    margin:
-        0 0 10px;
-
-    font-size:
-        1.8rem;
-}
-
-
-.intro-section p {
-    margin:
-        0;
-
-    color:
-        #c9c9c9;
-
-    line-height:
-        1.6;
-}
-
-
-/* =========================================================
-   WHEEL
-========================================================= */
-
-.wheel-section {
-    width:
-        100%;
-
-    display:
-        flex;
-
-    justify-content:
-        center;
-}
-
-
-.wheel-wrapper {
-    position:
-        relative;
-
-    width:
-        min(760px, 90vw);
-
-    aspect-ratio:
-        1 / 1;
-
-    margin:
-        0 auto;
-}
-
-
-.color-wheel {
-    display:
-        block;
-
-    width:
-        100%;
-
-    height:
-        100%;
-
-    object-fit:
-        contain;
-
-    user-select:
-        none;
-
-    -webkit-user-drag:
-        none;
-}
-
-
-/* =========================================================
-   CLICKABLE SVG
-========================================================= */
-
-.wheel-hotspots {
-    position:
-        absolute;
-
-    inset:
-        0;
-
-    width:
-        100%;
-
-    height:
-        100%;
-
-    overflow:
-        visible;
-}
-
-
-.wheel-hotspot {
-    fill:
-        rgba(255,255,255,0);
-
-    stroke:
-        transparent;
-
-    stroke-width:
-        8;
-
-    cursor:
-        pointer;
-
-    transition:
-        fill .2s ease,
-        stroke .2s ease;
-}
-
-
-.wheel-hotspot:hover,
-.wheel-hotspot.hovered {
-    fill:
-        rgba(255,255,255,.12);
-
-    stroke:
-        rgba(255,255,255,.75);
-}
-
-
-.wheel-hotspot.active {
-    fill:
-        rgba(255,255,255,.18);
-
-    stroke:
-        rgba(255,255,255,.95);
-
-    stroke-width:
-        10;
-}
-
-
-/* =========================================================
-   CALCULATOR SECTION
-========================================================= */
-
-.calculator-section {
-    margin:
-        55px auto 0;
-
-    scroll-margin-top:
-        20px;
-}
-
-
-.calculator-header {
-    text-align:
-        center;
-
-    margin-bottom:
-        25px;
-}
-
-
-.section-label {
-    display:
-        inline-block;
-
-    margin-bottom:
-        10px;
-
-    font-size:
-        .7rem;
-
-    font-weight:
-        bold;
-
-    letter-spacing:
-        2px;
-
-    color:
-        #d7b35b;
-}
-
-
-.calculator-header h2 {
-    margin:
-        0;
-
-    font-size:
-        2rem;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-}
-
-
-.calculator-header p {
-    margin:
-        10px auto 0;
-
-    max-width:
-        650px;
-
-    color:
-        #bdbdbd;
-
-    line-height:
-        1.5;
-}
-
-
-/* =========================================================
-   CALCULATOR PANEL
-========================================================= */
-
-.calculator-panel {
-    width:
-        100%;
-
-    max-width:
-        850px;
-
-    margin:
-        0 auto;
-
-    padding:
-        30px;
-
-    background:
-        #303030;
-
-    border:
-        1px solid #505050;
-
-    border-radius:
-        12px;
-
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.25);
-}
-
-
-.calculator-inputs {
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap:
-        30px;
-}
-
-
-/* =========================================================
-   INPUT GROUP
-========================================================= */
-
-.input-group {
-    width:
-        100%;
-}
-
-
-.input-group label {
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        space-between;
-
-    gap:
-        10px;
-
-    margin-bottom:
-        12px;
-
-    font-size:
-        1rem;
-}
-
-
-.input-group label strong {
-    margin-left:
-        6px;
-
-    color:
-        #d7b35b;
-}
-
-
-.live-value {
-    font-weight:
-        bold;
-
-    color:
-        #ffffff;
-
-    white-space:
-        nowrap;
-}
-
-
-.value-slider {
-    width:
-        100%;
-
-    height:
-        7px;
-
-    appearance:
-        none;
-
-    -webkit-appearance:
-        none;
-
-    background:
-        #555;
-
-    border-radius:
-        20px;
-
-    outline:
-        none;
-
-    cursor:
-        pointer;
-}
-
-
-.value-slider::-webkit-slider-thumb {
-    appearance:
-        none;
-
-    -webkit-appearance:
-        none;
-
-    width:
-        22px;
-
-    height:
-        22px;
-
-    border-radius:
-        50%;
-
-    background:
-        #d7b35b;
-
-    border:
-        3px solid #181818;
-
-    box-shadow:
-        0 0 0 1px #d7b35b;
-
-    cursor:
-        pointer;
-}
-
-
-.value-slider::-moz-range-thumb {
-    width:
-        22px;
-
-    height:
-        22px;
-
-    border-radius:
-        50%;
-
-    background:
-        #d7b35b;
-
-    border:
-        3px solid #181818;
-
-    cursor:
-        pointer;
-}
-
-
-/* =========================================================
-   RESULT
-========================================================= */
-
-.result-box {
-    margin-top:
-        35px;
-
-    padding:
-        25px;
-
-    text-align:
-        center;
-
-    background:
-        #1e1e1e;
-
-    border:
-        1px solid #4f4f4f;
-
-    border-radius:
-        10px;
-}
-
-
-.result-label {
-    display:
-        block;
-
-    margin-bottom:
-        8px;
-
-    color:
-        #999;
-
-    font-size:
-        .7rem;
-
-    font-weight:
-        bold;
-
-    letter-spacing:
-        2px;
-}
-
-
-.result-value {
-    font-size:
-        2.8rem;
-
-    font-weight:
-        bold;
-
-    color:
-        #f1d37a;
-}
-
-
-/* =========================================================
-   INFORMATION CARDS
-========================================================= */
-
-.information-grid {
-    max-width:
-        1000px;
-
-    margin:
-        30px auto 0;
-
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap:
-        18px;
-}
-
-
-.info-card {
-    padding:
-        24px;
-
-    background:
-        #303030;
-
-    border:
-        1px solid #4b4b4b;
-
-    border-radius:
-        10px;
-}
-
-
-.info-icon {
-    font-size:
-        1.5rem;
-
-    margin-bottom:
-        10px;
-}
-
-
-.info-card h3 {
-    margin:
-        0 0 10px;
-
-    font-size:
-        1.05rem;
-}
-
-
-.info-card p {
-    margin:
-        0;
-
-    color:
-        #c4c4c4;
-
-    line-height:
-        1.6;
-
-    font-size:
-        .92rem;
-}
-
-
-/* =========================================================
-   PRACTICE
-========================================================= */
-
-.practice-section {
-    max-width:
-        850px;
-
-    margin:
-        30px auto 0;
-
-    text-align:
-        center;
-}
-
-
-.practice-button {
-    padding:
-        13px 22px;
-
-    border:
-        1px solid #d7b35b;
-
-    border-radius:
-        6px;
-
-    background:
-        #d7b35b;
-
-    color:
-        #171717;
-
-    font-size:
-        .85rem;
-
-    font-weight:
-        bold;
-
-    letter-spacing:
-        .5px;
-
-    cursor:
-        pointer;
-
-    transition:
-        transform .15s ease,
-        background .15s ease;
-}
-
-
-.practice-button:hover {
-    transform:
-        translateY(-2px);
-
-    background:
-        #e4c777;
-}
-
-
-.practice-box {
-    margin-top:
-        15px;
-
-    padding:
-        20px;
-
-    min-height:
-        80px;
-
-    background:
-        #303030;
-
-    border:
-        1px solid #4b4b4b;
-
-    border-radius:
-        8px;
-
-    color:
-        #d2d2d2;
-
-    line-height:
-        1.6;
-}
-
-
-.practice-box strong {
-    display:
-        block;
-
-    margin-bottom:
-        8px;
-
-    color:
-        #d7b35b;
-
-    font-size:
-        .75rem;
-
-    letter-spacing:
-        1.5px;
-}
-
-
-.practice-box p {
-    margin:
-        0 0 8px;
-
-    color:
-        #ffffff;
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.site-footer {
-    padding:
-        25px 15px;
-
-    text-align:
-        center;
-
-    border-top:
-        1px solid #3d3d3d;
-
-    color:
-        #888;
-
-    font-size:
-        .8rem;
-}
-
-
-.site-footer span {
-    margin:
-        0 6px;
-
-    color:
-        #d7b35b;
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 800px) {
-
-    .header-content {
-        flex-direction:
-            column;
-
-        justify-content:
-            center;
-
-        padding:
-            8px 0;
-
-        text-align:
-            center;
-    }
-
-
-    .brand h1 {
-        font-size:
-            1.6rem;
-    }
-
-
-    .calculator-inputs {
-        grid-template-columns:
-            1fr;
-    }
-
-
-    .information-grid {
-        grid-template-columns:
-            1fr;
-    }
-
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 600px) {
-
-    .main-content {
-        width:
-            94%;
-
-        padding-top:
-            25px;
-    }
-
-
-    .intro-section {
-        margin-bottom:
-            20px;
-    }
-
-
-    .intro-section h2 {
-        font-size:
-            1.4rem;
-    }
-
-
-    .intro-section p {
-        font-size:
-            .9rem;
-    }
-
-
-    .wheel-wrapper {
-        width:
-            96vw;
-
-        max-width:
-            540px;
-    }
-
-
-    .calculator-section {
-        margin-top:
-            35px;
-    }
-
-
-    .calculator-header h2 {
-        font-size:
-            1.55rem;
-    }
-
-
-    .calculator-panel {
-        padding:
-            20px 15px;
-    }
-
-
-    .calculator-inputs {
-        gap:
-            24px;
-    }
-
-
-    .result-value {
-        font-size:
-            2.2rem;
-    }
-
-
-    .info-card {
-        padding:
-            20px;
-    }
-
-}
-
-
-/* =========================================================
-   SMALL PHONES
-========================================================= */
-
-@media (max-width: 400px) {
-
-    .brand h1 {
-        font-size:
-            1.35rem;
-    }
-
-
-    .header-label {
-        font-size:
-            .65rem;
-
-        padding:
-            7px 10px;
-    }
-
-
-    .calculator-panel {
-        padding:
-            18px 12px;
-    }
-
-
-    .result-box {
-        padding:
-            20px 10px;
-    }
-
-}/* =========================================================
-   OHM'S LAW & POWER COLOR WHEEL
-   Main Stylesheet
-========================================================= */
-
-
-/* =========================================================
-   RESET
-========================================================= */
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    margin: 0;
-    min-height: 100vh;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    background: #242424;
-    color: #f5f5f5;
-
-    overflow-x: hidden;
-}
-
-button,
-input {
-    font: inherit;
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.site-header {
-    width: 100%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #111111,
-            #292929
-        );
-
-    border-bottom: 2px solid #444;
-
-    box-shadow:
-        0 4px 18px rgba(0, 0, 0, 0.35);
-}
-
-
-.header-content {
-    width: min(1200px, 94%);
-
-    min-height: 65px;
-
-    margin: 0 auto;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 20px;
-}
-
-
-.brand h1 {
-    margin: 0;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size: 1.5rem;
-
-    line-height: 1.2;
-
-    letter-spacing: 0.5px;
-}
-
-
-.brand p {
-    margin: 3px 0 0;
-
-    color: #bbbbbb;
-
-    font-size: 0.9rem;
-}
-
-
-.header-label {
-    padding: 9px 15px;
-
-    border: 1px solid #777;
-
-    border-radius: 4px;
-
-    color: #dddddd;
-
-    font-size: 0.75rem;
-
-    font-weight: bold;
-
-    letter-spacing: 1.5px;
-
-    white-space: nowrap;
-}
-
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.main-content {
-    width: min(1200px, 94%);
-
-    margin: 0 auto;
-
-    padding: 35px 0 60px;
-}
-
-
-/* =========================================================
-   INTRODUCTION
-========================================================= */
-
-.intro-section {
-    max-width: 760px;
-
-    margin: 0 auto 30px;
-
-    text-align: center;
-}
-
-
-.intro-section h2 {
-    margin: 0 0 10px;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size: 1.8rem;
-
-    line-height: 1.25;
-}
-
-
-.intro-section p {
-    margin: 0;
-
-    color: #c9c9c9;
-
-    font-size: 0.98rem;
-
-    line-height: 1.6;
-}
-
-
-/* =========================================================
-   WHEEL SECTION
-========================================================= */
-
-.wheel-section {
-    width: 100%;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-}
-
-
-.wheel-wrapper {
-    position: relative;
-
-    width: min(760px, 90vw);
-
-    aspect-ratio: 1 / 1;
-
-    margin: 0 auto;
-}
-
-
-/* =========================================================
-   WHEEL IMAGE
-========================================================= */
-
-.color-wheel {
-    position: relative;
-
-    z-index: 1;
-
-    display: block;
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-
-    user-select: none;
-
-    -webkit-user-drag: none;
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   WHEEL DIMMING EFFECT
-========================================================= */
-
-.wheel-wrapper::after {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 2;
-
-    background:
-        rgba(0, 0, 0, 0);
-
-    border-radius: 50%;
-
-    pointer-events: none;
-
-    transition:
-        background 0.2s ease;
-}
-
-
-.wheel-wrapper.has-selection::after {
-    background:
-        rgba(0, 0, 0, 0.16);
-}
-
-
-/* =========================================================
-   SVG HOTSPOTS
-========================================================= */
-
-.wheel-hotspots {
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 3;
-
-    width: 100%;
-    height: 100%;
-
-    overflow: visible;
-
-    display: block;
-}
-
-
-.wheel-hotspot {
-    fill:
-        rgba(255, 255, 255, 0);
-
-    stroke:
-        transparent;
-
-    stroke-width: 8;
-
-    stroke-linejoin: round;
-
-    cursor: pointer;
-
-    opacity: 1;
-
-    transition:
-        fill 0.2s ease,
-        stroke 0.2s ease,
-        opacity 0.2s ease,
-        filter 0.2s ease;
-}
-
-
-/* =========================================================
-   UNSELECTED HOTSPOTS
-========================================================= */
-
-.wheel-wrapper.has-selection
-.wheel-hotspot:not(.active) {
-    opacity: 0.55;
-}
-
-
-/* =========================================================
-   HOVER
-========================================================= */
-
-.wheel-hotspot:hover,
-.wheel-hotspot.hovered {
-    fill:
-        rgba(255, 255, 255, 0.13);
-
-    stroke:
-        rgba(255, 255, 255, 0.75);
-
-    stroke-width: 9;
-
-    opacity: 1;
-
-    filter:
-        drop-shadow(
-            0 0 5px rgba(255, 255, 255, 0.25)
-        );
-}
-
-
-/* =========================================================
-   ACTIVE HOTSPOT
-========================================================= */
-
-.wheel-hotspot.active {
-    fill:
-        rgba(255, 255, 255, 0.18);
-
-    stroke:
-        rgba(255, 255, 255, 0.95);
-
-    stroke-width: 10;
-
-    opacity: 1;
-
-    filter:
-        drop-shadow(
-            0 0 7px rgba(255, 255, 255, 0.35)
-        );
-}
-
-
-/* =========================================================
-   INNER WHEEL LABELS
-========================================================= */
-
-.inner-wheel-labels {
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 4;
-
-    pointer-events: none;
-}
-
-
-.inner-label {
-    position: absolute;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    text-align: center;
-
-    color: #171717;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-weight: bold;
-
-    text-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.45);
-}
-
-
-.inner-label-name {
-    font-size: clamp(0.75rem, 1.8vw, 1.15rem);
-
-    line-height: 1.1;
-
-    letter-spacing: 0.5px;
-}
-
-
-.inner-label-symbol {
-    margin-top: 4px;
-
-    font-size: clamp(1.35rem, 3.2vw, 2rem);
-
-    line-height: 1;
-}
-
-
-/* ---------------------------------------------------------
-   INNER LABEL POSITIONS
-
-   These percentages keep the labels attached to the
-   four quadrants as the wheel scales.
---------------------------------------------------------- */
-
-.inner-watts {
-    left: 25%;
-    top: 42%;
-
-    width: 25%;
-    height: 16%;
-}
-
-
-.inner-volts {
-    left: 50%;
-    top: 42%;
-
-    width: 25%;
-    height: 16%;
-}
-
-
-.inner-amps {
-    left: 25%;
-    top: 58%;
-
-    width: 25%;
-    height: 16%;
-}
-
-
-.inner-ohms {
-    left: 50%;
-    top: 58%;
-
-    width: 25%;
-    height: 16%;
-}
-
-
-/* =========================================================
-   CALCULATOR SECTION
-========================================================= */
-
-.calculator-section {
-    margin: 55px auto 0;
-
-    scroll-margin-top: 20px;
-}
-
-
-.calculator-header {
-    max-width: 800px;
-
-    margin: 0 auto 25px;
-
-    text-align: center;
-}
-
-
-.section-label {
-    display: inline-block;
-
-    margin-bottom: 10px;
-
-    color: #d7b35b;
-
-    font-size: 0.7rem;
-
-    font-weight: bold;
-
-    letter-spacing: 2px;
-}
-
-
-.calculator-header h2 {
-    margin: 0;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size: 2rem;
-
-    line-height: 1.25;
-}
-
-
-.calculator-header p {
-    max-width: 650px;
-
-    margin: 10px auto 0;
-
-    color: #bdbdbd;
-
-    line-height: 1.5;
-}
-
-
-/* =========================================================
-   CALCULATOR PANEL
-========================================================= */
-
-.calculator-panel {
-    width: 100%;
-
-    max-width: 850px;
-
-    margin: 0 auto;
-
-    padding: 30px;
-
-    background: #303030;
-
-    border: 1px solid #505050;
-
-    border-radius: 12px;
-
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.25);
-}
-
-
-.calculator-inputs {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 30px;
-}
-
-
-/* =========================================================
-   INPUT GROUP
-========================================================= */
-
-.input-group {
-    width: 100%;
-}
-
-
-.input-group label {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 10px;
-
-    margin-bottom: 12px;
-
-    color: #eeeeee;
-
-    font-size: 1rem;
-
-    line-height: 1.3;
-}
-
-
-.input-group label strong {
-    margin-left: 6px;
-
-    color: #d7b35b;
-}
-
-
-.live-value {
-    color: #ffffff;
-
-    font-weight: bold;
-
-    white-space: nowrap;
-}
-
-
-/* =========================================================
-   SLIDER
-========================================================= */
-
-.value-slider {
-    display: block;
-
-    width: 100%;
-
-    height: 7px;
-
-    margin: 0;
-
-    appearance: none;
-
-    -webkit-appearance: none;
-
-    background:
-        linear-gradient(
-            to right,
-            #d7b35b,
-            #d7b35b
-        )
-        no-repeat;
-
-    background-color: #555;
-
-    border-radius: 20px;
-
-    outline: none;
-
-    cursor: pointer;
-}
-
-
-/* ---------------------------------------------------------
-   WEBKIT THUMB
---------------------------------------------------------- */
-
-.value-slider::-webkit-slider-thumb {
-    width: 22px;
-    height: 22px;
-
-    appearance: none;
-
-    -webkit-appearance: none;
-
-    border: 3px solid #181818;
-
-    border-radius: 50%;
-
-    background: #d7b35b;
-
-    box-shadow:
-        0 0 0 1px #d7b35b;
-
-    cursor: pointer;
-}
-
-
-.value-slider::-webkit-slider-thumb:hover {
-    background: #e4c777;
-}
-
-
-/* ---------------------------------------------------------
-   FIREFOX THUMB
---------------------------------------------------------- */
-
-.value-slider::-moz-range-thumb {
-    width: 22px;
-    height: 22px;
-
-    border: 3px solid #181818;
-
-    border-radius: 50%;
-
-    background: #d7b35b;
-
-    box-shadow:
-        0 0 0 1px #d7b35b;
-
-    cursor: pointer;
-}
-
-
-.value-slider::-moz-range-thumb:hover {
-    background: #e4c777;
-}
-
-
-/* ---------------------------------------------------------
-   FOCUS
---------------------------------------------------------- */
-
-.value-slider:focus-visible {
-    outline:
-        2px solid #f1d37a;
-
-    outline-offset:
-        5px;
-}
-
-
-/* =========================================================
-   RESULT BOX
-========================================================= */
-
-.result-box {
-    margin-top: 35px;
-
-    padding: 25px;
-
-    text-align: center;
-
-    background: #1e1e1e;
-
-    border: 1px solid #4f4f4f;
-
-    border-radius: 10px;
-}
-
-
-.result-label {
-    display: block;
-
-    margin-bottom: 8px;
-
-    color: #999999;
-
-    font-size: 0.7rem;
-
-    font-weight: bold;
-
-    letter-spacing: 2px;
-}
-
-
-.result-value {
-    min-height: 54px;
-
-    color: #f1d37a;
-
-    font-size: 2.8rem;
-
-    font-weight: bold;
-
-    line-height: 1.2;
-}
-
-
-/* =========================================================
-   ELECTRICIAN SECTION
-========================================================= */
-
-.electrician-section {
-    width: 100%;
-
-    max-width: 850px;
-
-    margin: 40px auto 0;
-
-    padding: 30px;
-
-    background: #303030;
-
-    border: 1px solid #505050;
-
-    border-radius: 12px;
-
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-
-.electrician-header {
-    margin-bottom: 25px;
-
-    text-align: center;
-}
-
-
-.electrician-header h2 {
-    margin: 0;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size: 1.8rem;
-
-    line-height: 1.25;
-}
-
-
-.electrician-content {
-    color: #d0d0d0;
-
-    font-size: 0.98rem;
-
-    line-height: 1.7;
-}
-
-
-.electrician-content > p {
-    margin: 0 0 16px;
-}
-
-
-.electrician-example {
-    margin-top: 25px;
-
-    padding: 20px;
-
-    background: #242424;
-
-    border-left: 4px solid #d7b35b;
-
-    border-radius: 6px;
-}
-
-
-.electrician-example h3 {
-    margin: 0 0 10px;
-
-    color: #f1d37a;
-
-    font-size: 1rem;
-
-    letter-spacing: 0.5px;
-}
-
-
-.electrician-example p {
-    margin: 0;
-
-    color: #c8c8c8;
-
-    line-height: 1.7;
-}
-
-
-/* =========================================================
-   PRACTICE SECTION
-========================================================= */
-
-.practice-section {
-    width: 100%;
-
-    max-width: 850px;
-
-    margin: 30px auto 0;
-
-    text-align: center;
-}
-
-
-.practice-button {
-    padding: 13px 22px;
-
-    border: 1px solid #d7b35b;
-
-    border-radius: 6px;
-
-    background: #d7b35b;
-
-    color: #171717;
-
-    font-size: 0.85rem;
-
-    font-weight: bold;
-
-    letter-spacing: 0.5px;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.15s ease,
-        background 0.15s ease,
-        box-shadow 0.15s ease;
-}
-
-
-.practice-button:hover {
-    transform: translateY(-2px);
-
-    background: #e4c777;
-
-    box-shadow:
-        0 5px 15px rgba(0, 0, 0, 0.25);
-}
-
-
-.practice-button:active {
-    transform: translateY(0);
-}
-
-
-.practice-button:focus-visible {
-    outline:
-        2px solid #f1d37a;
-
-    outline-offset:
-        4px;
-}
-
-
-.practice-box {
-    min-height: 80px;
-
-    margin-top: 15px;
-
-    padding: 20px;
-
-    background: #303030;
-
-    border: 1px solid #4b4b4b;
-
-    border-radius: 8px;
-
-    color: #d2d2d2;
-
-    line-height: 1.6;
-}
-
-
-.practice-box strong {
-    display: block;
-
-    margin-bottom: 8px;
-
-    color: #d7b35b;
-
-    font-size: 0.75rem;
-
-    letter-spacing: 1.5px;
-}
-
-
-.practice-box p {
-    margin: 0 0 8px;
-
-    color: #ffffff;
-}
-
-
-.practice-box span {
-    color: #aaa;
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.site-footer {
-    padding: 25px 15px;
-
-    text-align: center;
-
-    border-top: 1px solid #3d3d3d;
-
-    color: #888888;
-
-    font-size: 0.8rem;
-}
-
-
-.site-footer p {
-    margin: 0;
-}
-
-
-.site-footer span {
-    margin: 0 6px;
-
-    color: #d7b35b;
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 800px) {
-
-    .header-content {
-        min-height: auto;
-
-        flex-direction: column;
-
-        justify-content: center;
-
-        padding: 10px 0;
-
-        text-align: center;
-    }
-
-
-    .brand h1 {
-        font-size: 1.4rem;
-    }
-
-
-    .calculator-inputs {
-        grid-template-columns: 1fr;
-
-        gap: 24px;
-    }
-
-
-    .calculator-panel {
-        padding: 25px;
-    }
-
-
-    .electrician-section {
-        padding: 25px;
-    }
-
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 600px) {
-
-    .main-content {
-        width: 94%;
-
-        padding:
-            25px 0 45px;
-    }
-
-
-    .intro-section {
-        margin-bottom: 20px;
-    }
-
-
-    .intro-section h2 {
-        font-size: 1.4rem;
-    }
-
-
-    .intro-section p {
-        font-size: 0.9rem;
-    }
-
-
-    .wheel-wrapper {
-        width: 96vw;
-
-        max-width: 540px;
-    }
-
-
-    .calculator-section {
-        margin-top: 35px;
-    }
-
-
-    .calculator-header h2 {
-        font-size: 1.55rem;
-    }
-
-
-    .calculator-header p {
-        font-size: 0.9rem;
-    }
-
-
-    .calculator-panel {
-        padding: 20px 15px;
-    }
-
-
-    .calculator-inputs {
-        gap: 24px;
-    }
-
-
-    .input-group label {
-        font-size: 0.92rem;
-    }
-
-
-    .result-box {
-        margin-top: 28px;
-
-        padding: 20px 12px;
-    }
-
-
-    .result-value {
-        font-size: 2.2rem;
-    }
-
-
-    .electrician-section {
-        margin-top: 30px;
-
-        padding: 20px 15px;
-    }
-
-
-    .electrician-header h2 {
-        font-size: 1.45rem;
-    }
-
-
-    .electrician-content {
-        font-size: 0.92rem;
-    }
-
-
-    .electrician-example {
-        padding: 16px;
-    }
-
-
-    .practice-button {
-        width: 100%;
-
-        max-width: 320px;
-    }
-
-}
-
-
-/* =========================================================
-   SMALL PHONES
-========================================================= */
-
-@media (max-width: 400px) {
-
-    .brand h1 {
-        font-size: 1.3rem;
-    }
-
-
-    .brand p {
-        font-size: 0.82rem;
-    }
-
-
-    .header-label {
-        padding: 7px 10px;
-
-        font-size: 0.65rem;
-    }
-
-
-    .calculator-panel {
-        padding: 18px 12px;
-    }
-
-
-    .calculator-header h2 {
-        font-size: 1.4rem;
-    }
-
-
-    .result-box {
-        padding: 18px 8px;
-    }
-
-
-    .result-value {
-        font-size: 2rem;
-    }
-
-
-    .electrician-section {
-        padding: 18px 12px;
-    }
-
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-    html {
-        scroll-behavior: auto;
-    }
-
-
-    *,
-    *::before,
-    *::after {
-        transition-duration: 0.01ms !important;
-
-        animation-duration: 0.01ms !important;
-
-        animation-iteration-count: 1 !important;
-    }
-
-}
-/* =========================================================
-   GLOBAL
-========================================================= */
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    margin: 0;
-    min-height: 100vh;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    background:
-        #242424;
-
-    color:
-        #f5f5f5;
-
-    overflow-x: hidden;
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.site-header {
-    width: 100%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #111111,
-            #292929
-        );
-
-    border-bottom:
-        2px solid #444;
-
-    box-shadow:
-        0 4px 18px rgba(0,0,0,.35);
-
-}
-
-
-.header-content {
-    width: min(1200px, 94%);
-
-    min-height: 65px;
-
-    margin: auto;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 20px;
-}
-
-
-.brand h1 {
-    margin: 0;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size: 1.5rem;
-
-    letter-spacing:
-        .5px;
-}
-
-
-.brand p {
-    margin:
-        2px 0 0;
-
-    color:
-        #bbbbbb;
-
-    font-size:
-        .9rem;
-}
-
-
-.header-label {
-    padding:
-        9px 15px;
-
-    border:
-        1px solid #777;
-
-    border-radius:
-        4px;
-
-    color:
-        #dddddd;
-
-    font-size:
-        .75rem;
-
-    font-weight:
-        bold;
-
-    letter-spacing:
-        1.5px;
-
-    white-space:
-        nowrap;
-}
-
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.main-content {
-    width:
-        min(1200px, 94%);
-
-    margin:
-        0 auto;
-
-    padding:
-        35px 0 60px;
-}
-
-
-/* =========================================================
-   INTRO
-========================================================= */
-
-.intro-section {
-    text-align:
-        center;
-
-    max-width:
-        760px;
-
-    margin:
-        0 auto 30px;
-}
-
-
-.intro-section h2 {
-    margin:
-        0 0 10px;
-
-    font-size:
-        1.8rem;
-}
-
-
-.intro-section p {
-    margin:
-        0;
-
-    color:
-        #c9c9c9;
-
-    line-height:
-        1.6;
-}
-
-
-/* =========================================================
-   WHEEL
-========================================================= */
-
-.wheel-section {
-    width:
-        100%;
-
-    display:
-        flex;
-
-    justify-content:
-        center;
-}
-
-
-.wheel-wrapper {
-    position:
-        relative;
-
-    width:
-        min(760px, 90vw);
-
-    aspect-ratio:
-        1 / 1;
-
-    margin:
-        0 auto;
-}
-
-
-.color-wheel {
-    display:
-        block;
-
-    width:
-        100%;
-
-    height:
-        100%;
-
-    object-fit:
-        contain;
-
-    user-select:
-        none;
-
-    -webkit-user-drag:
-        none;
-}
-
-
-/* =========================================================
-   CLICKABLE SVG
-========================================================= */
-
-.wheel-hotspots {
-    position:
-        absolute;
-
-    inset:
-        0;
-
-    width:
-        100%;
-
-    height:
-        100%;
-
-    overflow:
-        visible;
-}
-
-
-.wheel-hotspot {
-    fill:
-        rgba(255,255,255,0);
-
-    stroke:
-        transparent;
-
-    stroke-width:
-        8;
-
-    cursor:
-        pointer;
-
-    transition:
-        fill .2s ease,
-        stroke .2s ease;
-}
-
-
-.wheel-hotspot:hover,
-.wheel-hotspot.hovered {
-    fill:
-        rgba(255,255,255,.12);
-
-    stroke:
-        rgba(255,255,255,.75);
-}
-
-
-.wheel-hotspot.active {
-    fill:
-        rgba(255,255,255,.18);
-
-    stroke:
-        rgba(255,255,255,.95);
-
-    stroke-width:
-        10;
-}
-
-
-/* =========================================================
-   CALCULATOR SECTION
-========================================================= */
-
-.calculator-section {
-    margin:
-        55px auto 0;
-
-    scroll-margin-top:
-        20px;
-}
-
-
-.calculator-header {
-    text-align:
-        center;
-
-    margin-bottom:
-        25px;
-}
-
-
-.section-label {
-    display:
-        inline-block;
-
-    margin-bottom:
-        10px;
-
-    font-size:
-        .7rem;
-
-    font-weight:
-        bold;
-
-    letter-spacing:
-        2px;
-
-    color:
-        #d7b35b;
-}
-
-
-.calculator-header h2 {
-    margin:
-        0;
-
-    font-size:
-        2rem;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-}
-
-
-.calculator-header p {
-    margin:
-        10px auto 0;
-
-    max-width:
-        650px;
-
-    color:
-        #bdbdbd;
-
-    line-height:
-        1.5;
-}
-
-
-/* =========================================================
-   CALCULATOR PANEL
-========================================================= */
-
-.calculator-panel {
-    width:
-        100%;
-
-    max-width:
-        850px;
-
-    margin:
-        0 auto;
-
-    padding:
-        30px;
-
-    background:
-        #303030;
-
-    border:
-        1px solid #505050;
-
-    border-radius:
-        12px;
-
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.25);
-}
-
-
-.calculator-inputs {
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap:
-        30px;
-}
-
-
-/* =========================================================
-   INPUT GROUP
-========================================================= */
-
-.input-group {
-    width:
-        100%;
-}
-
-
-.input-group label {
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        space-between;
-
-    gap:
-        10px;
-
-    margin-bottom:
-        12px;
-
-    font-size:
-        1rem;
-}
-
-
-.input-group label strong {
-    margin-left:
-        6px;
-
-    color:
-        #d7b35b;
-}
-
-
-.live-value {
-    font-weight:
-        bold;
-
-    color:
-        #ffffff;
-
-    white-space:
-        nowrap;
-}
-
-
-.value-slider {
-    width:
-        100%;
-
-    height:
-        7px;
-
-    appearance:
-        none;
-
-    -webkit-appearance:
-        none;
-
-    background:
-        #555;
-
-    border-radius:
-        20px;
-
-    outline:
-        none;
-
-    cursor:
-        pointer;
-}
-
-
-.value-slider::-webkit-slider-thumb {
-    appearance:
-        none;
-
-    -webkit-appearance:
-        none;
-
-    width:
-        22px;
-
-    height:
-        22px;
-
-    border-radius:
-        50%;
-
-    background:
-        #d7b35b;
-
-    border:
-        3px solid #181818;
-
-    box-shadow:
-        0 0 0 1px #d7b35b;
-
-    cursor:
-        pointer;
-}
-
-
-.value-slider::-moz-range-thumb {
-    width:
-        22px;
-
-    height:
-        22px;
-
-    border-radius:
-        50%;
-
-    background:
-        #d7b35b;
-
-    border:
-        3px solid #181818;
-
-    cursor:
-        pointer;
-}
-
-
-/* =========================================================
-   RESULT
-========================================================= */
-
-.result-box {
-    margin-top:
-        35px;
-
-    padding:
-        25px;
-
-    text-align:
-        center;
-
-    background:
-        #1e1e1e;
-
-    border:
-        1px solid #4f4f4f;
-
-    border-radius:
-        10px;
-}
-
-
-.result-label {
-    display:
-        block;
-
-    margin-bottom:
-        8px;
-
-    color:
-        #999;
-
-    font-size:
-        .7rem;
-
-    font-weight:
-        bold;
-
-    letter-spacing:
-        2px;
-}
-
-
-.result-value {
-    font-size:
-        2.8rem;
-
-    font-weight:
-        bold;
-
-    color:
-        #f1d37a;
-}
-
-
-/* =========================================================
-   INFORMATION CARDS
-========================================================= */
-
-.information-grid {
-    max-width:
-        1000px;
-
-    margin:
-        30px auto 0;
-
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap:
-        18px;
-}
-
-
-.info-card {
-    padding:
-        24px;
-
-    background:
-        #303030;
-
-    border:
-        1px solid #4b4b4b;
-
-    border-radius:
-        10px;
-}
-
-
-.info-icon {
-    font-size:
-        1.5rem;
-
-    margin-bottom:
-        10px;
-}
-
-
-.info-card h3 {
-    margin:
-        0 0 10px;
-
-    font-size:
-        1.05rem;
-}
-
-
-.info-card p {
-    margin:
-        0;
-
-    color:
-        #c4c4c4;
-
-    line-height:
-        1.6;
-
-    font-size:
-        .92rem;
-}
-
-
-/* =========================================================
-   PRACTICE
-========================================================= */
-
-.practice-section {
-    max-width:
-        850px;
-
-    margin:
-        30px auto 0;
-
-    text-align:
-        center;
-}
-
-
-.practice-button {
-    padding:
-        13px 22px;
-
-    border:
-        1px solid #d7b35b;
-
-    border-radius:
-        6px;
-
-    background:
-        #d7b35b;
-
-    color:
-        #171717;
-
-    font-size:
-        .85rem;
-
-    font-weight:
-        bold;
-
-    letter-spacing:
-        .5px;
-
-    cursor:
-        pointer;
-
-    transition:
-        transform .15s ease,
-        background .15s ease;
-}
-
-
-.practice-button:hover {
-    transform:
-        translateY(-2px);
-
-    background:
-        #e4c777;
-}
-
-
-.practice-box {
-    margin-top:
-        15px;
-
-    padding:
-        20px;
-
-    min-height:
-        80px;
-
-    background:
-        #303030;
-
-    border:
-        1px solid #4b4b4b;
-
-    border-radius:
-        8px;
-
-    color:
-        #d2d2d2;
-
-    line-height:
-        1.6;
-}
-
-
-.practice-box strong {
-    display:
-        block;
-
-    margin-bottom:
-        8px;
-
-    color:
-        #d7b35b;
-
-    font-size:
-        .75rem;
-
-    letter-spacing:
-        1.5px;
-}
-
-
-.practice-box p {
-    margin:
-        0 0 8px;
-
-    color:
-        #ffffff;
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.site-footer {
-    padding:
-        25px 15px;
-
-    text-align:
-        center;
-
-    border-top:
-        1px solid #3d3d3d;
-
-    color:
-        #888;
-
-    font-size:
-        .8rem;
-}
-
-
-.site-footer span {
-    margin:
-        0 6px;
-
-    color:
-        #d7b35b;
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 800px) {
-
-    .header-content {
-        flex-direction:
-            column;
-
-        justify-content:
-            center;
-
-        padding:
-            8px 0;
-
-        text-align:
-            center;
-    }
-
-
-    .brand h1 {
-        font-size:
-            1.6rem;
-    }
-
-
-    .calculator-inputs {
-        grid-template-columns:
-            1fr;
-    }
-
-
-    .information-grid {
-        grid-template-columns:
-            1fr;
-    }
-
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 600px) {
-
-    .main-content {
-        width:
-            94%;
-
-        padding-top:
-            25px;
-    }
-
-
-    .intro-section {
-        margin-bottom:
-            20px;
-    }
-
-
-    .intro-section h2 {
-        font-size:
-            1.4rem;
-    }
-
-
-    .intro-section p {
-        font-size:
-            .9rem;
-    }
-
-
-    .wheel-wrapper {
-        width:
-            96vw;
-
-        max-width:
-            540px;
-    }
-
-
-    .calculator-section {
-        margin-top:
-            35px;
-    }
-
-
-    .calculator-header h2 {
-        font-size:
-            1.55rem;
-    }
-
-
-    .calculator-panel {
-        padding:
-            20px 15px;
-    }
-
-
-    .calculator-inputs {
-        gap:
-            24px;
-    }
-
-
-    .result-value {
-        font-size:
-            2.2rem;
-    }
-
-
-    .info-card {
-        padding:
-            20px;
-    }
-
-}
-
-
-/* =========================================================
-   SMALL PHONES
-========================================================= */
-
-@media (max-width: 400px) {
-
-    .brand h1 {
-        font-size:
-            1.35rem;
-    }
-
-
-    .header-label {
-        font-size:
-            .65rem;
-
-        padding:
-            7px 10px;
-    }
-
-
-    .calculator-panel {
-        padding:
-            18px 12px;
-    }
-
-
-    .result-box {
-        padding:
-            20px 10px;
+        animation-iteration-count:
+            1 !important;
     }
 
 }
