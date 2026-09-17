@@ -14,15 +14,16 @@
    P / I
    √(P × R)
 
+   RESISTANCE
+   E / I
+   E² / P
+   P / I²
+
    CURRENT
    E / R
    P / E
    √(P / R)
 
-   RESISTANCE
-   E / I
-   E² / P
-   P / I²
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -311,7 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             what:
                 "For example, √(720 W × 20 Ω) = 120 V."
-        },
+        },  
 
 
         /* =====================================================
@@ -320,50 +321,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
         "E / R": {
 
-    title: "Current from Voltage and Resistance",
+            title: "Current from Voltage and Resistance",
 
-    description:
-        "Calculate current when voltage and resistance are known.",
+            description:
+                "Calculate current when voltage and resistance are known.",
 
-    inputs: [
+            inputs: [
+                {
+                    name: "Voltage",
+                    symbol: "E",
+                    unit: "V",
+                    min: 0,
+                    max: 240,
+                    step: 1,
+                    value: 120
+                },
 
-        {
-            name: "Voltage",
-            symbol: "E",
-            unit: "V",
-            min: 0,
-            max: 240,
-            step: 1,
-            value: 120
+                {
+                    name: "Resistance",
+                    symbol: "R",
+                    unit: "Ω",
+                    min: 0.1,
+                    max: 100,
+                    step: 0.1,
+                    value: 20
+                }
+            ],
+
+            calculate: ([voltage, resistance]) =>
+                voltage / resistance,
+
+            resultUnit: "A",
+
+            what:
+                "This equation calculates current by dividing voltage by resistance.",
+
+            why:
+                "It demonstrates the basic relationship between voltage, current, and resistance.",
+
+            field:
+                "An electrician can use this relationship to determine current when voltage and resistance are known."
         },
-
-        {
-            name: "Resistance",
-            symbol: "R",
-            unit: "Ω",
-            min: 0.1,
-            max: 100,
-            step: 0.1,
-            value: 20
-        }
-
-    ],
-
-    calculate: values =>
-        values[0] / values[1],
-
-    resultUnit: "A",
-
-    what:
-        "This equation calculates current by dividing voltage by resistance.",
-
-    why:
-        "It demonstrates the basic relationship between voltage, current, and resistance.",
-
-    field:
-        "An electrician can use this relationship to determine current when voltage and resistance are known."
-
-},
 
 
         "P / E": {
@@ -454,7 +452,7 @@ document.addEventListener("DOMContentLoaded", () => {
             what:
                 "For example, √(500 W ÷ 20 Ω) = 5 A."
         },
-
+    
 
         /* =====================================================
            RESISTANCE
@@ -648,6 +646,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const wheelWrapper =
         document.querySelector("#wheelWrapper");
 
+    const wheelOverlay =
+        document.querySelector(".wheel-hotspots");
+
     const hotspots =
         document.querySelectorAll(".wheel-hotspot");
 
@@ -709,10 +710,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================================================
+       CLEAR WHEEL SELECTION
+    ========================================================= */
+
+    function clearWheelSelection() {
+
+        hotspots.forEach(hotspot => {
+
+            hotspot.classList.remove("selected");
+            hotspot.classList.remove("hovered");
+
+        });
+
+        if (wheelOverlay) {
+            wheelOverlay.classList.remove("has-selection");
+        }
+
+        if (wheelWrapper) {
+            wheelWrapper.classList.remove("has-selection");
+        }
+    }
+
+
+    /* =========================================================
+       SET WHEEL SELECTION
+    ========================================================= */
+
+    function setWheelSelection(selectedHotspot) {
+
+        hotspots.forEach(hotspot => {
+
+            hotspot.classList.toggle(
+                "selected",
+                hotspot === selectedHotspot
+            );
+
+        });
+
+        if (wheelOverlay) {
+            wheelOverlay.classList.add("has-selection");
+        }
+
+        if (wheelWrapper) {
+            wheelWrapper.classList.add("has-selection");
+        }
+    }
+
+
+    /* =========================================================
        LOAD EQUATION
     ========================================================= */
 
-    function loadEquation(equationKey) {
+    function loadEquation(equationKey, selectedHotspot = null) {
 
         const equation = equations[equationKey];
 
@@ -730,32 +779,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /* -----------------------------------------------------
-           ACTIVE WHEEL STATE
+           WHEEL SELECTION
         ----------------------------------------------------- */
 
-        if (wheelWrapper) {
-            wheelWrapper.classList.add("has-selection");
+        if (selectedHotspot) {
+
+            setWheelSelection(selectedHotspot);
+
+        } else {
+
+            hotspots.forEach(hotspot => {
+
+                if (hotspot.dataset.equation === equationKey) {
+
+                    setWheelSelection(hotspot);
+
+                }
+
+            });
+
         }
-
-        hotspots.forEach(hotspot => {
-
-            hotspot.classList.toggle(
-                "active",
-                hotspot.dataset.equation === equationKey
-            );
-
-        });
 
 
         /* -----------------------------------------------------
            HEADER
         ----------------------------------------------------- */
 
-        selectedEquation.textContent =
-            equationKey;
+        if (selectedEquation) {
 
-        equationDescription.textContent =
-            equation.description;
+            selectedEquation.textContent =
+                equationKey;
+
+        }
+
+
+        if (equationDescription) {
+
+            equationDescription.textContent =
+                equation.description;
+
+        }
 
 
         /* -----------------------------------------------------
@@ -763,24 +826,34 @@ document.addEventListener("DOMContentLoaded", () => {
         ----------------------------------------------------- */
 
         if (fieldUse) {
+
             fieldUse.textContent =
                 equation.field;
+
         }
 
         if (fieldExample) {
+
             fieldExample.textContent =
                 equation.why;
+
         }
 
         if (fieldUseExample) {
+
             fieldUseExample.textContent =
                 equation.what;
+
         }
 
 
         /* -----------------------------------------------------
            CLEAR OLD INPUTS
         ----------------------------------------------------- */
+
+        if (!calculatorInputs) {
+            return;
+        }
 
         calculatorInputs.innerHTML = "";
 
@@ -846,68 +919,163 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
+            /* -------------------------------------------------
+               STANDARD INPUT
+            ------------------------------------------------- */
+
             slider.addEventListener(
                 "input",
                 updateCalculator
             );
 
 
+            /* -------------------------------------------------
+               CUSTOM POINTER DRAG
+            ------------------------------------------------- */
 
-let dragStartX = 0;
-let dragStartValue = 0;
-
-slider.addEventListener("pointerdown", (event) => {
-    dragStartX = event.clientX;
-    dragStartValue = Number(slider.value);
-
-    slider.setPointerCapture(event.pointerId);
-});
-
-slider.addEventListener("pointermove", (event) => {
-    if (!slider.hasPointerCapture(event.pointerId)) {
-        return;
-    }
-
-    const distance = event.clientX - dragStartX;
-    const absDistance = Math.abs(distance);
-
-    // Make the slider progressively less sensitive
-    // the farther the user drags from the starting point.
-    let sensitivity;
-
-    if (absDistance <= 50) {
-        sensitivity = 1;
-    } else if (absDistance <= 100) {
-        sensitivity = 0.5;
-    } else if (absDistance <= 200) {
-        sensitivity = 0.25;
-    } else {
-        sensitivity = 0.1;
-    }
-
-    const valueChange =
-        (distance / 10) * sensitivity;
-
-    let newValue =
-        dragStartValue + valueChange;
-
-    // Respect the slider's min, max, and step
-    const min = Number(slider.min);
-    const max = Number(slider.max);
-    const step = Number(slider.step);
-
-    newValue = Math.max(min, Math.min(max, newValue));
-
-    newValue =
-        Math.round(newValue / step) * step;
-
-    slider.value = newValue;
-
-    updateCalculator();
-});
+            let dragStartX = 0;
+            let dragStartValue = 0;
+            let isDragging = false;
 
 
+            slider.addEventListener(
+                "pointerdown",
+                (event) => {
 
+                    dragStartX =
+                        event.clientX;
+
+                    dragStartValue =
+                        Number(slider.value);
+
+                    isDragging = true;
+
+                    try {
+
+                        slider.setPointerCapture(
+                            event.pointerId
+                        );
+
+                    } catch (error) {
+
+                        /* Pointer capture may not be
+                           available in every browser. */
+
+                    }
+
+                }
+            );
+
+
+            slider.addEventListener(
+                "pointermove",
+                (event) => {
+
+                    if (!isDragging) {
+                        return;
+                    }
+
+
+                    const distance =
+                        event.clientX - dragStartX;
+
+                    const absDistance =
+                        Math.abs(distance);
+
+
+                    let sensitivity;
+
+
+                    if (absDistance <= 50) {
+
+                        sensitivity = 1;
+
+                    } else if (absDistance <= 100) {
+
+                        sensitivity = 0.5;
+
+                    } else if (absDistance <= 200) {
+
+                        sensitivity = 0.25;
+
+                    } else {
+
+                        sensitivity = 0.1;
+
+                    }
+
+
+                    const valueChange =
+                        (distance / 10) * sensitivity;
+
+
+                    let newValue =
+                        dragStartValue + valueChange;
+
+
+                    const min =
+                        Number(slider.min);
+
+                    const max =
+                        Number(slider.max);
+
+                    const step =
+                        Number(slider.step);
+
+
+                    newValue =
+                        Math.max(
+                            min,
+                            Math.min(max, newValue)
+                        );
+
+
+                    newValue =
+                        Math.round(
+                            newValue / step
+                        ) * step;
+
+
+                    slider.value =
+                        newValue;
+
+
+                    updateCalculator();
+
+                }
+            );
+
+
+            slider.addEventListener(
+                "pointerup",
+                (event) => {
+
+                    isDragging = false;
+
+                    try {
+
+                        slider.releasePointerCapture(
+                            event.pointerId
+                        );
+
+                    } catch (error) {
+
+                        /* Ignore pointer capture errors. */
+
+                    }
+
+                }
+            );
+
+
+            slider.addEventListener(
+                "pointercancel",
+                () => {
+
+                    isDragging = false;
+
+                }
+            );
 
 
             group.appendChild(label);
@@ -929,8 +1097,13 @@ slider.addEventListener("pointermove", (event) => {
            RESET PRACTICE MESSAGE
         ----------------------------------------------------- */
 
-        practiceBox.textContent =
-            "Click PRACTICE THIS EQUATION to generate a problem.";
+        if (practiceBox) {
+
+            practiceBox.textContent =
+                "Click PRACTICE THIS EQUATION to generate a problem.";
+
+        }
+
     }
 
 
@@ -949,6 +1122,11 @@ slider.addEventListener("pointermove", (event) => {
             equations[currentEquation];
 
 
+        if (!calculatorInputs) {
+            return;
+        }
+
+
         const sliders =
             calculatorInputs.querySelectorAll(
                 ".value-slider"
@@ -957,7 +1135,8 @@ slider.addEventListener("pointermove", (event) => {
 
         const values =
             Array.from(sliders).map(
-                slider => Number(slider.value)
+                slider =>
+                    Number(slider.value)
             );
 
 
@@ -971,6 +1150,7 @@ slider.addEventListener("pointermove", (event) => {
                 document.querySelector(
                     `#value-${index}`
                 );
+
 
             if (display) {
 
@@ -987,6 +1167,7 @@ slider.addEventListener("pointermove", (event) => {
         ----------------------------------------------------- */
 
         let result;
+
 
         try {
 
@@ -1009,7 +1190,10 @@ slider.addEventListener("pointermove", (event) => {
            DISPLAY RESULT
         ----------------------------------------------------- */
 
-        if (Number.isFinite(result)) {
+        if (
+            Number.isFinite(result) &&
+            result >= 0
+        ) {
 
             resultValue.textContent =
                 `${formatNumber(result)} ${equation.resultUnit}`;
@@ -1018,7 +1202,9 @@ slider.addEventListener("pointermove", (event) => {
 
             resultValue.textContent =
                 "—";
+
         }
+
     }
 
 
@@ -1028,30 +1214,44 @@ slider.addEventListener("pointermove", (event) => {
 
     hotspots.forEach(hotspot => {
 
+
         /* -----------------------------------------------------
            CLICK
         ----------------------------------------------------- */
 
-        hotspot.addEventListener("click", () => {
+        hotspot.addEventListener(
+            "click",
+            (event) => {
 
-            const equation =
-                hotspot.dataset.equation;
+                /*
+                   Prevent the click from reaching the
+                   document-level outside-click handler.
+                */
 
-            if (!equations[equation]) {
+                event.stopPropagation();
 
-                console.warn(
-                    `No calculator exists for "${equation}".`
+
+                const equation =
+                    hotspot.dataset.equation;
+
+
+                if (!equations[equation]) {
+
+                    console.warn(
+                        `No calculator exists for "${equation}".`
+                    );
+
+                    return;
+                }
+
+
+                loadEquation(
+                    equation,
+                    hotspot
                 );
 
-                return;
             }
-
-
-            loadEquation(equation);
-
-
-
-        });
+        );
 
 
         /* -----------------------------------------------------
@@ -1062,7 +1262,9 @@ slider.addEventListener("pointermove", (event) => {
             "mouseenter",
             () => {
 
-                hotspot.classList.add("hovered");
+                hotspot.classList.add(
+                    "hovered"
+                );
 
             }
         );
@@ -1072,7 +1274,9 @@ slider.addEventListener("pointermove", (event) => {
             "mouseleave",
             () => {
 
-                hotspot.classList.remove("hovered");
+                hotspot.classList.remove(
+                    "hovered"
+                );
 
             }
         );
@@ -1133,49 +1337,108 @@ slider.addEventListener("pointermove", (event) => {
 
 
     /* =========================================================
+       CLICK OUTSIDE WHEEL
+    ========================================================= */
+
+    document.addEventListener(
+        "click",
+        (event) => {
+
+            /*
+               Do not clear the selection when clicking
+               inside the wheel or calculator area.
+            */
+
+            if (
+                event.target.closest(
+                    "#wheelWrapper"
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+               We intentionally leave the equation selected
+               when the user works with the calculator,
+               practice button, etc.
+
+               Therefore no selection is cleared here.
+            */
+
+        }
+    );
+
+
+    /* =========================================================
        VALIDATE WHEEL AGAINST EQUATION DATA
     ========================================================= */
 
     const wheelEquationNames =
         Array.from(hotspots).map(
-            hotspot => hotspot.dataset.equation
+            hotspot =>
+                hotspot.dataset.equation
         );
 
 
-    wheelEquationNames.forEach(equation => {
+    wheelEquationNames.forEach(
+        equation => {
 
-        if (!equations[equation]) {
+            if (!equations[equation]) {
 
-            console.warn(
-                `Wheel hotspot "${equation}" has no matching calculator.`
-            );
+                console.warn(
+                    `Wheel hotspot "${equation}" has no matching calculator.`
+                );
 
-        }
-
-    });
-
-
-    Object.keys(equations).forEach(equation => {
-
-        if (!wheelEquationNames.includes(equation)) {
-
-            console.warn(
-                `Calculator equation "${equation}" has no matching wheel hotspot.`
-            );
+            }
 
         }
+    );
 
-    });
+
+    Object.keys(equations).forEach(
+        equation => {
+
+            if (
+                !wheelEquationNames.includes(
+                    equation
+                )
+            ) {
+
+                console.warn(
+                    `Calculator equation "${equation}" has no matching wheel hotspot.`
+                );
+
+            }
+
+        }
+    );
 
 
     /* =========================================================
        INITIAL STATE
     ========================================================= */
 
-    selectedEquation.textContent =
-        "Select an equation above";
+    if (selectedEquation) {
 
-    equationDescription.textContent =
-        "Click one of the equations on the color wheel to begin.";
+        selectedEquation.textContent =
+            "Select an equation above";
+
+    }
+
+
+    if (equationDescription) {
+
+        equationDescription.textContent =
+            "Click one of the equations on the color wheel to begin.";
+
+    }
+
+
+    console.log(
+        `Loaded ${Object.keys(equations).length} equations.`
+    );
 
 });
