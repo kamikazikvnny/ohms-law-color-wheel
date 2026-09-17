@@ -852,6 +852,64 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
+
+let dragStartX = 0;
+let dragStartValue = 0;
+
+slider.addEventListener("pointerdown", (event) => {
+    dragStartX = event.clientX;
+    dragStartValue = Number(slider.value);
+
+    slider.setPointerCapture(event.pointerId);
+});
+
+slider.addEventListener("pointermove", (event) => {
+    if (!slider.hasPointerCapture(event.pointerId)) {
+        return;
+    }
+
+    const distance = event.clientX - dragStartX;
+    const absDistance = Math.abs(distance);
+
+    // Make the slider progressively less sensitive
+    // the farther the user drags from the starting point.
+    let sensitivity;
+
+    if (absDistance <= 50) {
+        sensitivity = 1;
+    } else if (absDistance <= 100) {
+        sensitivity = 0.5;
+    } else if (absDistance <= 200) {
+        sensitivity = 0.25;
+    } else {
+        sensitivity = 0.1;
+    }
+
+    const valueChange =
+        (distance / 10) * sensitivity;
+
+    let newValue =
+        dragStartValue + valueChange;
+
+    // Respect the slider's min, max, and step
+    const min = Number(slider.min);
+    const max = Number(slider.max);
+    const step = Number(slider.step);
+
+    newValue = Math.max(min, Math.min(max, newValue));
+
+    newValue =
+        Math.round(newValue / step) * step;
+
+    slider.value = newValue;
+
+    updateCalculator();
+});
+
+
+
+
+
             group.appendChild(label);
             group.appendChild(slider);
 
