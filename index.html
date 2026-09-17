@@ -1,447 +1,256 @@
-Commit ed43f37
-kamikazikvnny
-kamikazikvnny
-authored
-yesterday
-··
-Verified
-Update title and labels for color wheel page
-main
+<!DOCTYPE html>
 
-1 parent 
-acc074c
- commit 
-ed43f37
-
-1 file changed
-+109-226Lines changed: 109 additions & 226 deletions
-File tree
-
-    index.html
-
- 
-‎index.html‎
-+109-226Lines changed: 109 additions & 226 deletions
-Original file line number	Diff line number	Diff line change
-@@ -4,362 +4,249 @@
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Ohm's Law Color Wheel | Electrical Training</title>
-    <title>Ohm's Law & Power Color Wheel</title>
+<title>Ohm's Law &amp; Power Color Wheel</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
 <header class="site-header">
     <div class="header-content">
         <div class="brand">
-            <h1>Ohm's Law Color Wheel</h1>
             <h1>Ohm's Law &amp; Power Color Wheel</h1>
             <p>Interactive Electrical Math Training</p>
         </div>
 
-        <div class="header-label">
-            ELECTRICAL TRAINING
-        </div>
-        <div class="header-label">ELECTRICAL TRAINING</div>
-    </div>
+    <div class="header-label">ELECTRICAL TRAINING</div>
+</div>
+
+
 </header>
 
-
-<!-- =========================================================
-     MAIN
-========================================================= -->
 <main class="main-content">
 
-    <!-- =====================================================
-         INTRODUCTION
-    ====================================================== -->
-    <section class="intro-section">
-        <h2>Explore Electrical Relationships</h2>
-        <p>
-            Select an equation on the wheel to open an interactive
-            calculator. Change the values and watch the result
-            update in real time.
-            calculator. Change the values and watch the result update
-            in real time.
-        </p>
-    </section>
+<section class="intro-section">
+    <h2>Explore Electrical Relationships</h2>
+    <p>
+        Select an equation on the wheel to open an interactive
+        calculator. Change the values and watch the result update
+        in real time.
+    </p>
+</section>
 
 
-    <!-- =====================================================
-         COLOR WHEEL
-    ====================================================== -->
-    <section class="wheel-section">
-    <section class="wheel-section" aria-label="Interactive equation wheel">
+<section class="wheel-section" aria-label="Interactive equation wheel">
 
-        <div class="wheel-wrapper">
-        <div class="wheel-wrapper" id="wheelWrapper">
+    <div class="wheel-wrapper" id="wheelWrapper">
 
-            <!-- The actual wheel image -->
-            <img
-                src="color-wheel.png"
-                alt="Ohm's Law and Power equation color wheel"
-                alt="Ohm's Law and electrical power equation color wheel"
-                class="color-wheel"
-            >
-
-            <!-- =================================================
-                 CLICKABLE EQUATION AREAS
-            ================================================== -->
-            <svg
-                class="wheel-hotspots"
-                viewBox="0 0 1536 1536"
-                preserveAspectRatio="xMidYMid meet"
-                aria-label="Interactive equation wheel"
-                aria-label="Interactive electrical equations"
-            >
-
-                <!--
-                    Each path corresponds to one outer section
-                    of the wheel.
-                    The paths are transparent.
-                    The image underneath remains visible.
-                -->
-                <!-- POWER -->
-
-                <!-- 1 — I × R -->
-                <path
-                    class="wheel-hotspot"
-                    data-equation="I × R"
-                    d="M768 50
-                       A718 718 0 0 1 1127 146.2
-                       L927 492.6
-                       L768 450 Z"
-                    data-equation="E × I"
-                    aria-label="E times I"
-                    d="M50 768 A718 718 0 0 1 146.2 409 L492.6 609 L450 768 Z"
-                />
-
-                <!-- 2 — P / I -->
-                <path
-                    class="wheel-hotspot"
-                    data-equation="P / I"
-                    d="M1127 146.2
-                       A718 718 0 0 1 1389.8 409
-                       L1043.4 609
-                       L927 492.6 Z"
-                    data-equation="R × I²"
-                    aria-label="R times I squared"
-                    d="M146.2 409 A718 718 0 0 1 409 146.2 L609 492.6 L492.6 609 Z"
-                />
-
-                <!-- 3 — √(P × R) -->
-                <path
-                    class="wheel-hotspot"
-                    data-equation="√(P × R)"
-                    d="M1389.8 409
-                       A718 718 0 0 1 1486 768
-                       L1086 768
-                       L1043.4 609 Z"
-                    data-equation="E² / R"
-                    aria-label="E squared divided by R"
-                    d="M409 146.2 A718 718 0 0 1 768 50 L768 450 L609 492.6 Z"
-                />
-
-
-                <!-- 4 — V / I -->
-                <!-- VOLTAGE -->
-                <path
-                    class="wheel-hotspot"
-                    data-equation="√(P / R)"
-                    d="M1486 768
-                       A718 718 0 0 1 1389.8 1127
-                       L1043.4 927
-                       L1086 768 Z"
-                    data-equation="R × I"
-                    aria-label="R times I"
-                    d="M768 50 A718 718 0 0 1 1127 146.2 L927 492.6 L768 450 Z"
-                />
-
-                <!-- 5 — V² / P -->
-                <path
-                    class="wheel-hotspot"
-                    data-equation="V² / P"
-                    d="M1389.8 1127
-                       A718 718 0 0 1 1127 1389.8
-                       L927 1043.4
-                       L1043.4 927 Z"
-                    data-equation="P / I"
-                    aria-label="P divided by I"
-                    d="M1127 146.2 A718 718 0 0 1 1389.8 409 L1043.4 609 L927 492.6 Z"
-                />
-
-                <!-- 6 — P / I² -->
-                <path
-                    class="wheel-hotspot"
-                    data-equation="P / I²"
-                    d="M1127 1389.8
-                       A718 718 0 0 1 768 1486
-                       L768 1086
-                       L927 1043.4 Z"
-                    data-equation="√(P × R)"
-                    aria-label="Square root of P times R"
-                    d="M1389.8 409 A718 718 0 0 1 1486 768 L1086 768 L1043.4 609 Z"
-                />
-
-
-                <!-- 7 — P / R -->
-                <!-- CURRENT -->
-                <path
-                    class="wheel-hotspot"
-                    data-equation="P / R"
-                    d="M768 1486
-                       A718 718 0 0 1 409 1389.8
-                       L609 1043.4
-                       L768 1086 Z"
-                    data-equation="E / R"
-                    aria-label="E divided by R"
-                    d="M146.2 1127 A718 718 0 0 1 50 768 L450 768 L492.6 927 Z"
-                />
-
-                <!-- 8 — P / V -->
-                <path
-                    class="wheel-hotspot"
-                    data-equation="P / V"
-                    d="M409 1389.8
-                       A718 718 0 0 1 146.2 1127
-                       L492.6 927
-                       L609 1043.4 Z"
-                    data-equation="P / E"
-                    aria-label="P divided by E"
-                    d="M409 1389.8 A718 718 0 0 1 146.2 1127 L492.6 927 L609 1043.4 Z"
-                />
-
-                <!-- 9 — V / I -->
-                <path
-                    class="wheel-hotspot"
-                    data-equation="V / I"
-                    d="M146.2 1127
-                       A718 718 0 0 1 50 768
-                       L450 768
-                       L492.6 927 Z"
-                    data-equation="√(P / R)"
-                    aria-label="Square root of P divided by R"
-                    d="M146.2 1127 A718 718 0 0 1 50 768 L450 768 L492.6 927 Z"
-                />
-
-
-                <!-- 10 — V × I -->
-                <!-- RESISTANCE -->
-                <path
-                    class="wheel-hotspot"
-                    data-equation="V × I"
-                    d="M50 768
-                       A718 718 0 0 1 146.2 409
-                       L492.6 609
-                       L450 768 Z"
-                    data-equation="E / I"
-                    aria-label="E divided by I"
-                    d="M1486 768 A718 718 0 0 1 1389.8 1127 L1043.4 927 L1086 768 Z"
-                />
-
-                <!-- 11 — I² × R -->
-                <path
-                    class="wheel-hotspot"
-                    data-equation="I² × R"
-                    d="M146.2 409
-                       A718 718 0 0 1 409 146.2
-                       L609 492.6
-                       L492.6 609 Z"
-                    data-equation="E² / P"
-                    aria-label="E squared divided by P"
-                    d="M1389.8 1127 A718 718 0 0 1 1127 1389.8 L927 1043.4 L1043.4 927 Z"
-                />
-
-                <!-- 12 — V² / R -->
-                <path
-                    class="wheel-hotspot"
-                    data-equation="V² / R"
-                    d="M409 146.2
-                       A718 718 0 0 1 768 50
-                       L768 450
-                       L609 492.6 Z"
-                    data-equation="P / I²"
-                    aria-label="P divided by I squared"
-                    d="M1127 1389.8 A718 718 0 0 1 768 1486 L768 1086 L927 1043.4 Z"
-                />
-
-            </svg>
-
-            <div class="inner-wheel-labels">
-                <div class="inner-label inner-watts">
-                    <span class="inner-label-name">WATTS</span>
-                    <span class="inner-label-symbol">P</span>
-                </div>
-                <div class="inner-label inner-volts">
-                    <span class="inner-label-name">VOLTS</span>
-                    <span class="inner-label-symbol">E</span>
-                </div>
-                <div class="inner-label inner-amps">
-                    <span class="inner-label-name">AMPS</span>
-                    <span class="inner-label-symbol">I</span>
-                </div>
-                <div class="inner-label inner-ohms">
-                    <span class="inner-label-name">OHMS</span>
-                    <span class="inner-label-symbol">R</span>
-                </div>
-            </div>
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         SELECTED EQUATION
-    ====================================================== -->
-    <section
-        class="calculator-section"
-        id="calculatorSection"
-    >
-    <section class="calculator-section" id="calculatorSection">
-
-        <div class="calculator-header">
-            <span class="section-label">
-                SELECTED EQUATION
-            </span>
-            <span class="section-label">SELECTED EQUATION</span>
-
-            <h2 id="selectedEquation">
-                Select an equation above
-            </h2>
-
-            <p id="equationDescription">
-                Click one of the equations on the color wheel
-                to begin.
-                Click one of the equations on the color wheel to begin.
-            </p>
-        </div>
-
-
-        <!-- =================================================
-             CALCULATOR
-        ================================================== -->
-        <div
-            class="calculator-panel"
-            id="calculatorPanel"
+        <img
+            src="color-wheel.png"
+            alt="Ohm's Law and electrical power equation color wheel"
+            class="color-wheel"
         >
-            <div class="calculator-inputs" id="calculatorInputs">
-                <!-- JavaScript inserts sliders here -->
-            </div>
-        <div class="calculator-panel">
 
-            <!-- RESULT -->
+        <svg
+            class="wheel-hotspots"
+            viewBox="0 0 1536 1536"
+            preserveAspectRatio="xMidYMid meet"
+            aria-label="Interactive electrical equations"
+        >
+
+            <!-- POWER -->
+
+            <path
+                class="wheel-hotspot"
+                data-equation="E × I"
+                aria-label="E times I"
+                d="M36.7 768 A718 718 0 0 1 100.4 470.4 L494.9 646.7 L469.1 768 Z"
+            />
+
+            <path
+                class="wheel-hotspot"
+                data-equation="R × I²"
+                aria-label="R times I squared"
+                d="M100.4 470.4 A718 718 0 0 1 358.9 161.7 L601.4 520.6 L494.9 646.7 Z"
+            />
+
+            <path
+                class="wheel-hotspot"
+                data-equation="E² / R"
+                aria-label="E squared divided by R"
+                d="M358.9 161.7 A718 718 0 0 1 768 36.7 L768 469.1 L601.4 520.6 Z"
+            />
+
+
+            <!-- VOLTAGE -->
+
+            <path
+                class="wheel-hotspot"
+                data-equation="R × I"
+                aria-label="R times I"
+                d="M768 36.7 A718 718 0 0 1 1174.7 160.5 L934.6 519.3 L768 469.1 Z"
+            />
+
+            <path
+                class="wheel-hotspot"
+                data-equation="P / I"
+                aria-label="P divided by I"
+                d="M1174.7 160.5 A718 718 0 0 1 1442.9 486.3 L1043.6 652.9 L934.6 519.3 Z"
+            />
+
+            <path
+                class="wheel-hotspot"
+                data-equation="√(P × R)"
+                aria-label="Square root of P times R"
+                d="M1442.9 486.3 A718 718 0 0 1 1499.3 768 L1066.9 768 L1043.6 652.9 Z"
+            />
+
+
+            <!-- CURRENT -->
+
+            <path
+                class="wheel-hotspot"
+                data-equation="E / R"
+                aria-label="E divided by R"
+                d="M421.4 1412.3 A718 718 0 0 1 199.7 1228.6 L535.3 956.6 L625.9 1031.3 Z"
+            />
+
+            <path
+                class="wheel-hotspot"
+                data-equation="P / E"
+                aria-label="P divided by E"
+                d="M768 1499.3 A718 718 0 0 1 421.4 1412.3 L625.9 1031.3 L768 1066.9 Z"
+            />
+
+            <path
+                class="wheel-hotspot"
+                data-equation="√(P / R)"
+                aria-label="Square root of P divided by R"
+                d="M199.7 1228.6 A718 718 0 0 1 36.7 768 L469.1 768 L535.3 956.6 Z"
+            />
+
+
+            <!-- RESISTANCE -->
+
+            <path
+                class="wheel-hotspot"
+                data-equation="E / I"
+                aria-label="E divided by I"
+                d="M1499.3 768 A718 718 0 0 1 1315.5 1253.1 L992.2 966.4 L1066.9 768 Z"
+            />
+
+            <path
+                class="wheel-hotspot"
+                data-equation="E² / P"
+                aria-label="E squared divided by P"
+                d="M1315.5 1253.1 A718 718 0 0 1 1101.2 1418.4 L904 1033.8 L992.2 966.4 Z"
+            />
+
+            <path
+                class="wheel-hotspot"
+                data-equation="P / I²"
+                aria-label="P divided by I squared"
+                d="M1101.2 1418.4 A718 718 0 0 1 768 1499.3 L768 1066.9 L904 1033.8 Z"
+            />
+
+        </svg>
+    </div>
+
+    
+</section>
+
+
+<section class="calculator-section" id="calculatorSection">
+
+    <div class="calculator-header">
+        <span class="section-label">SELECTED EQUATION</span>
+
+        <h2 id="selectedEquation">
+            Select an equation above
+        </h2>
+
+        <p id="equationDescription">
+            Click one of the equations on the color wheel to begin.
+        </p>
+    </div>
+
+
+    <div class="calculator-panel">
+
+        <div
+            class="calculator-inputs"
+            id="calculatorInputs"
+        ></div>
+
+        <div class="result-box">
+            <span class="result-label">CALCULATED RESULT</span>
+
             <div
-                class="calculator-inputs"
-                id="calculatorInputs"
-            ></div>
+                class="result-value"
+                id="resultValue"
+            >
+                —
+            </div>
+        </div>
 
-            <div class="result-box">
-                <span class="result-label">
-                    CALCULATED RESULT
-                </span>
-                <span class="result-label">CALCULATED RESULT</span>
+    </div>
 
-                <div
-                    class="result-value"
-                    id="resultValue"
-                >
-                    —
-                </div>
+
+    <section class="electrician-section">
+
+        <div class="electrician-header">
+            <span class="section-label">FIELD APPLICATION</span>
+
+            <h2>How an Electrician Uses It</h2>
+        </div>
+
+        <div class="electrician-content">
+
+            <p id="fieldUse">
+                Select an equation to see how it can be applied
+                in electrical work.
+            </p>
+
+            <p id="fieldExample">
+                Electrical relationships can help determine
+                unknown voltage, current, resistance, or power.
+            </p>
+
+            <div class="electrician-example">
+                <h3>Practical Example</h3>
+
+                <p id="fieldUseExample">
+                    Select an equation to see a practical example.
+                </p>
             </div>
 
         </div>
 
+    </section>
 
-        <!-- =================================================
-             INFORMATION
-        ================================================== -->
-        <div class="information-grid">
-        <section class="electrician-section">
 
-            <div class="electrician-header">
-                <span class="section-label">FIELD APPLICATION</span>
+    <div class="practice-section">
 
-            <!-- WHAT IS IT -->
-            <article class="info-card">
-                <div class="info-icon">
-                    📘
-                </div>
-                <h2>How an Electrician Uses It</h2>
-            </div>
+        <button
+            type="button"
+            id="practiceButton"
+            class="practice-button"
+        >
+            🎲 PRACTICE THIS EQUATION
+        </button>
 
-                <h3>What Is It?</h3>
-            <div class="electrician-content">
-
-                <p id="whatIsIt">
-                    Select an equation to learn what it calculates.
-                <p id="fieldUse">
-                    Select an equation to see how it can be applied
-                    in electrical work.
-                </p>
-
-            </article>
-            <!-- WHY IT MATTERS -->
-            <article class="info-card">
-                <div class="info-icon">
-                    ⚡
-                </div>
-                <h3>Why Does It Matter?</h3>
-                <p id="whyItMatters">
-                    Electrical calculations help electricians
-                    understand how voltage, current, resistance,
-                    and power interact.
-                <p id="fieldExample">
-                    Electrical relationships can help determine
-                    unknown voltage, current, resistance, or power.
-                </p>
-
-            </article>
-            <!-- FIELD USE -->
-                <div class="electrician-example">
-                    <h3>Practical Example</h3>
-
-            <article class="info-card">
-                <div class="info-icon">
-                    🔧
-                    <p id="fieldUseExample">
-                        Select an equation to see a practical example.
-                    </p>
-                </div>
-
-                <h3>How An Electrician Uses It</h3>
-                <p id="fieldUse">
-                    Select an equation to see an example of how
-                    the calculation can relate to electrical work.
-                </p>
-            </article>
+        <div
+            id="practiceBox"
+            class="practice-box"
+        >
+            Select an equation to generate a practice problem.
         </div>
-            </div>
 
-        </section>
+    </div>
 
-        <!-- =================================================
-             PRACTICE
-        ================================================== -->
+</section>
 
-        <div class="practice-section">
-
-@@ -385,20 +272,16 @@ <h3>How An Electrician Uses It</h3>
 </main>
 
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
 <footer class="site-footer">
     <p>
-        Ohm's Law Color Wheel
         Ohm's Law &amp; Power Color Wheel
         <span>•</span>
         Interactive Electrical Training
@@ -449,5 +258,6 @@ Original file line number	Diff line number	Diff line change
 </footer>
 
 <script src="script.js"></script>
+
 </body>
 </html>
