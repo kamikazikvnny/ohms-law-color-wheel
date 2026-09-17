@@ -675,6 +675,9 @@ input {
     cursor: pointer;
 }
 
+input[type="range"] {
+    touch-action: none;
+}
 
 /* =========================================================
    WEBKIT SLIDER THUMB
