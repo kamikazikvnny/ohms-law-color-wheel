@@ -5,23 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Ohm's Law &amp; Power Color Wheel</title>
+    <title>Ohm's Law &amp; Power Color Wheel</title>
 
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<header class="site-header">
-    <div class="header-content">
-        <div class="brand">
-            <h1>Ohm's Law &amp; Power Color Wheel</h1>
-            <p>Interactive Electrical Math Training</p>
-        </div>
-
-    <div class="header-label">ELECTRICAL TRAINING</div>
-</div>
+<header></header>
 
 
 </header>
@@ -29,11 +21,10 @@
 <main class="main-content">
 
 <section class="intro-section">
-    <h2>Explore Electrical Relationships</h2>
+    <h2></h2>
     <p>
         Select an equation on the wheel to open an interactive
-        calculator. Change the values and watch the result update
-        in real time.
+        calculator. Change the values and watch the result update in real time.
     </p>
 </section>
 
@@ -50,110 +41,115 @@
 
         <svg
             class="wheel-hotspots"
-            viewBox="0 0 1536 1536"
+            viewBox="0 0 1254 1254"
             preserveAspectRatio="xMidYMid meet"
             aria-label="Interactive electrical equations"
         >
 
             <!-- POWER -->
 
-            <path
+            <polygon
                 class="wheel-hotspot"
                 data-equation="E × I"
                 aria-label="E times I"
-                d="M36.7 768 A718 718 0 0 1 100.4 470.4 L494.9 646.7 L469.1 768 Z"
+                points="44,622 96,372 398,512 380,620"
             />
 
-            <path
+            <polygon
                 class="wheel-hotspot"
                 data-equation="R × I²"
                 aria-label="R times I squared"
-                d="M100.4 470.4 A718 718 0 0 1 358.9 161.7 L601.4 520.6 L494.9 646.7 Z"
+                points="93,374 310,126 489,400 400,512"
             />
 
-            <path
+            <polygon
                 class="wheel-hotspot"
                 data-equation="E² / R"
                 aria-label="E squared divided by R"
-                d="M358.9 161.7 A718 718 0 0 1 768 36.7 L768 469.1 L601.4 520.6 Z"
+                points="308,130 627,31 625,353 489,396"
             />
 
 
             <!-- VOLTAGE -->
 
-            <path
+            <polygon
                 class="wheel-hotspot"
                 data-equation="R × I"
                 aria-label="R times I"
-                d="M768 36.7 A718 718 0 0 1 1174.7 160.5 L934.6 519.3 L768 469.1 Z"
+                points="625,30 953,140 766,397 628,354"
             />
 
-            <path
+            <polygon
                 class="wheel-hotspot"
                 data-equation="P / I"
                 aria-label="P divided by I"
-                d="M1174.7 160.5 A718 718 0 0 1 1442.9 486.3 L1043.6 652.9 L934.6 519.3 Z"
+                points="957,142 1147,385 853,513 768,397"
             />
 
-            <path
+            <polygon
                 class="wheel-hotspot"
                 data-equation="√(P × R)"
                 aria-label="Square root of P times R"
-                d="M1442.9 486.3 A718 718 0 0 1 1499.3 768 L1066.9 768 L1043.6 652.9 Z"
+                points="854,514 1146,382 1192,622 872,620"
             />
 
 
-            <!-- CURRENT -->
+                <!-- RESISTANCE -->
 
-            <path
-                class="wheel-hotspot"
-                data-equation="E / R"
-                aria-label="E divided by R"
-                d="M421.4 1412.3 A718 718 0 0 1 199.7 1228.6 L535.3 956.6 L625.9 1031.3 Z"
-            />
-
-            <path
-                class="wheel-hotspot"
-                data-equation="P / E"
-                aria-label="P divided by E"
-                d="M768 1499.3 A718 718 0 0 1 421.4 1412.3 L625.9 1031.3 L768 1066.9 Z"
-            />
-
-            <path
-                class="wheel-hotspot"
-                data-equation="√(P / R)"
-                aria-label="Square root of P divided by R"
-                d="M199.7 1228.6 A718 718 0 0 1 36.7 768 L469.1 768 L535.3 956.6 Z"
-            />
-
-
-            <!-- RESISTANCE -->
-
-            <path
+            <polygon
                 class="wheel-hotspot"
                 data-equation="E / I"
                 aria-label="E divided by I"
-                d="M1499.3 768 A718 718 0 0 1 1315.5 1253.1 L992.2 966.4 L1066.9 768 Z"
+                points="871,622 1192,622, 1068,961 834,749"
             />
 
-            <path
+            <polygon
                 class="wheel-hotspot"
                 data-equation="E² / P"
                 aria-label="E squared divided by P"
-                d="M1315.5 1253.1 A718 718 0 0 1 1101.2 1418.4 L904 1033.8 L992.2 966.4 Z"
+                points="834,751 1069,960 885,1128 734,838"
             />
 
-            <path
+            <polygon
                 class="wheel-hotspot"
                 data-equation="P / I²"
                 aria-label="P divided by I squared"
-                d="M1101.2 1418.4 A718 718 0 0 1 768 1499.3 L768 1066.9 L904 1033.8 Z"
+                points="899,1158 627,1224 627,871 738,844"
             />
+            
+            <!-- CURRENT -->
+            
+
+<polygon
+    class="wheel-hotspot"
+    data-equation="E / R"
+    aria-label="E divided by R"
+    points="626,863 628,1204 362,1127 522,840"
+/>
+
+<polygon
+                class="wheel-hotspot"
+                data-equation="P / E"
+                aria-label="P divided by E"
+                points="520,841 356,1131 161,959 418,748"
+/>
+
+
+<polygon
+    class="wheel-hotspot"
+    data-equation="√(P / R)"
+    aria-label="Square root of P divided by R"
+    points="418,745 164,960 42,621 380,620"
+/>
+/>
+
+
+            
 
         </svg>
     </div>
 
-    
+
 </section>
 
 
